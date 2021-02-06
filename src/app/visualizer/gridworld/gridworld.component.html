@@ -1,0 +1,22 @@
+<div class="grid">
+    <table>
+        <tr *ngFor="let row of cells; index as y">
+            <td *ngFor="let col of row; index as x" 
+            (mousedown)="mouseDownHandler(y,x)" 
+            (mouseenter)="mouseEnterHandler(y,x)"
+            (mouseup)="mouseUpHandler()" 
+
+            draggable="{{cells[y][x].status == 'start' || cells[y][x].status == 'end'}}"
+            (dragstart) = "DragStart($event, y, x)"
+            
+            (drop) ="MouseUp($event, y,x)"
+            (dragenter)="DragCancel($event,y,x)"
+            (dragleave)="DragCancel($event,y,x)"
+            (dragover)="DragCancel($event,y,x)"
+            >
+                <app-gridcell #cell [cell] = "cells[y][x]"></app-gridcell>
+            </td>
+        </tr>
+    </table>
+
+</div>

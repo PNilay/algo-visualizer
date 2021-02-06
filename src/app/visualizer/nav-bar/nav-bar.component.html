@@ -1,0 +1,59 @@
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand navhome" href="#">Algo Visualizer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown algo">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ this.toVis.algorithm}}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'BFS'">BFS (Breadth First Search)</a>
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'DFS'">DFS (Depth  First Search)</a>
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'Dijkstra'">Dijkstra's</a>
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'A* algorithm'">A* algorithm</a>
+          </div>
+        </li>
+
+
+        <li class="nav-item dropdown algo">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Grid Size
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'BFS (Breadth First Search)'">10 X 10</a>
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'DFS (Depth  First Search)'">10 X 20</a>
+            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'Dijkstra'">50 X 70</a>
+          </div>
+        </li>
+
+
+
+
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li> -->
+
+        <div class="nav-item nav-link speed">
+          <div class="form-group">
+            <label for="formControlRange">Speed</label>
+            <input type="range" class="form-control-range" min="0" max="400" value="30" id="formControlRange" [(ngModel)]="toVis.algorithmSpeed" name="favoriteColor">
+          </div>
+        </div>
+
+      </ul>
+
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunVisualizer()">Visualize</button>
+      &nbsp; &nbsp;
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunReset()">Reset Visualization</button>
+      &nbsp; &nbsp;
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunResetAll()">Reset All</button>
+
+    </div>
+  </nav>

@@ -1,0 +1,11 @@
+<div [ngClass]="{
+    'start_cell': cell.status == 'start',
+    'end_cell': cell.status == 'end',
+    'close_cell':cell.status == 'close',
+    'path_cell': cell.vertex_status == 'path' && cell.status == 'open' ,
+    'current_cell':cell.vertex_status == 'visited' && cell.status == 'open',
+    'neighbor_cell': cell.vertex_status == 'neighbors' && cell.status == 'open'}"
+
+>
+
+</div>

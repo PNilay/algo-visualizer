@@ -1,0 +1,27 @@
+.grid {
+  display: inline-block;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 10px;
+}
+
+.container-fluid {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+}
+
+.info {
+  widows: 100%;
+  height: 20vh;
+  background-color: goldenrod;
+}
+
+.droptarget {
+  float: left;
+  width: 100px;
+  height: 35px;
+  margin: 15px;
+  padding: 10px;
+  border: 5px solid red;
+}
