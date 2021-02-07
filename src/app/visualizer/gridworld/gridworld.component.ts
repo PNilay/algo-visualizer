@@ -19,6 +19,7 @@ export class GridworldComponent implements OnInit {
   @ViewChildren('cell') cellcomponents!: QueryList<any>;
 
   mousePressed:boolean = false;
+  leftOrRight:boolean = false; //left button clicked == false, right button ==> true
   prev_mouseEnter!:number;
 
   dragNode!:number[];
@@ -54,41 +55,85 @@ export class GridworldComponent implements OnInit {
     this.refreshGridworld();
   }
 
-  mouseEnterHandler(y:number,x:number){    
-    if(this.mousePressed &&  !this.inProcess){
-      if(this.prev_mouseEnter != y+x){      
-        if(this.cells[y][x].status == 'open'){ 
-          this.cells[y][x].status = 'close';
-          this.prev_mouseEnter = y+x;
-          this.refreshGridworld();
-          return;
-        }else if(this.cells[y][x].status == 'close'){    
-          this.cells[y][x].status = 'open';
-          this.prev_mouseEnter = y+x;
-          this.refreshGridworld();
-          return;
-        }
-      }
-    }
+  onRightClick(){
+    return false;
   }
-  mouseDownHandler(y:number,x:number){
-    if(!this.inProcess){
-      if(this.cells[y][x].status != 'start' || this.cells[y][x].status != 'end' ){
-        this.prev_mouseEnter = y+x;
-        if(this.cells[y][x].status == 'close'){
-          this.cells[y][x].status = 'open';
+  mouseEnterHandler(y:number,x:number){        
+    if(this.mousePressed &&  !this.inProcess){
+      if(this.prev_mouseEnter != y+x){ 
+        if(this.leftOrRight){
+          //right button pressed
+          if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'close'){ 
+            this.cells[y][x].status = 'toll';
+            this.cells[y][x].weight = 10;
+            this.prev_mouseEnter = y+x;
+            this.refreshGridworld();
+            return;
+          }else if(this.cells[y][x].status == 'toll'){    
+            this.cells[y][x].status = 'open';
+            this.cells[y][x].weight = 1;
+            this.prev_mouseEnter = y+x;
+            this.refreshGridworld();
+            return;
+          }
+        }else{
+          if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){ 
+            this.cells[y][x].status = 'close';
+            this.cells[y][x].weight = 1;
+            this.prev_mouseEnter = y+x;
+            this.refreshGridworld();
+            return;
+          }else if(this.cells[y][x].status == 'close'){    
+            this.cells[y][x].status = 'open';
+            this.prev_mouseEnter = y+x;
+            this.refreshGridworld();
+            return;
+          }
         }
-        else if(this.cells[y][x].status == 'open'){
-          this.cells[y][x].status = 'close';
-        }
-        this.mousePressed = true;        
-        this.refreshGridworld();
       }
     }
   }
 
+  // Left button --> Create wall
+  // right button --> Create toll
+  mouseDownHandler(event:any, y:number,x:number){
+    if(!this.inProcess){
+      if(this.cells[y][x].status != 'start' || this.cells[y][x].status != 'end' ){
+        this.prev_mouseEnter = y+x;
+
+        if(event.button == 0){
+          // console.log('Left Clicked');
+          this.leftOrRight = false;
+          if(this.cells[y][x].status == 'close'){
+            this.cells[y][x].status = 'open';
+          }
+          else if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){
+            this.cells[y][x].weight = 1;
+            this.cells[y][x].status = 'close';
+          }
+        }else{
+          // console.log("Right Click");
+          this.leftOrRight = true;
+          if(this.cells[y][x].status == 'toll'){
+            this.cells[y][x].weight = 1;
+            this.cells[y][x].status = 'open';
+          }
+          else{
+            this.cells[y][x].status = 'toll';
+            this.cells[y][x].weight = 10;
+          }
+        }
+        this.mousePressed = true;        
+        this.refreshGridworld();
+
+      }
+    }
+    
+  }
+
   mouseUpHandler(){   
     this.mousePressed = false;
+    this.leftOrRight = false;
     this.iswallClicked.emit(true);
   }
 
@@ -103,6 +148,7 @@ export class GridworldComponent implements OnInit {
     this.cellcomponents.forEach((cmp: GridcellComponent) => {
       cmp.reset();
       cmp.removeAllWall();
+      cmp.removeAllTolls();
       cmp.runChangeDetector();
   });
   }

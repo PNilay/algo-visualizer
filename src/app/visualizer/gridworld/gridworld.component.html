@@ -2,7 +2,8 @@
     <table>
         <tr *ngFor="let row of cells; index as y">
             <td *ngFor="let col of row; index as x" 
-            (mousedown)="mouseDownHandler(y,x)" 
+            (contextmenu)="onRightClick()"
+            (mousedown)="mouseDownHandler($event,y,x)" 
             (mouseenter)="mouseEnterHandler(y,x)"
             (mouseup)="mouseUpHandler()" 
 

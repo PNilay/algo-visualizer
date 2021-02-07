@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BFS } from 'src/app/algorithms/BFS';
 import { DFS } from 'src/app/algorithms/DFS';
+import { Dijksta } from 'src/app/algorithms/Dijkstra';
 import { NavInfo } from 'src/app/models/navInfo';
 import { Cell } from '../../models/cell';
 import { GridcellComponent } from '../gridcell/gridcell.component';
@@ -18,6 +19,7 @@ export class AlgovisualizerComponent implements OnInit {
   sizeOfGrid:number[] = [20,50];
   bfs!: BFS;
   dfs!:DFS;
+  dijksta!:Dijksta;
 
   cells:Cell[][] = [];
   isVisualizing:boolean = false;
@@ -46,6 +48,7 @@ export class AlgovisualizerComponent implements OnInit {
 
     this.bfs = new BFS(this.cells);
     this.dfs = new DFS(this.cells);
+    this.dijksta = new Dijksta(this.cells);
   }
 
 
@@ -56,6 +59,8 @@ export class AlgovisualizerComponent implements OnInit {
       this.runBFSPath();
     }else if(event.algorithm == "DFS"){      
       this.runDFSPath();
+    }else if(event.algorithm == "Dijkstra"){
+      this.runDijkstraPath();
     }
   }
 
@@ -101,6 +106,8 @@ export class AlgovisualizerComponent implements OnInit {
         this.runBFSReset();
       }else if(this.navigation.algorithm == "DFS"){
         this.runDFSReset();
+      }else if(this.navigation.algorithm == "Dijkstra"){
+        this.runDijkstaReset();
       }
 
     }else if(this.inProcess == true){
@@ -110,6 +117,8 @@ export class AlgovisualizerComponent implements OnInit {
           this.runBFSPath();
         }else if(this.navigation.algorithm == "DFS"){
           this.runDFSPath();
+        }else if(this.navigation.algorithm == "Dijkstra"){
+          this.runDijkstraPath();
         }
       }, 100);
     }else{      
@@ -140,6 +149,8 @@ export class AlgovisualizerComponent implements OnInit {
           this.runBFSReset();
         }else if(this.navigation.algorithm == "DFS"){
           this.runDFSReset();
+        }else if(this.navigation.algorithm == "Dijkstra"){
+          this.runDijkstaReset();
         }
       }
     }else{
@@ -250,8 +261,53 @@ export class AlgovisualizerComponent implements OnInit {
 
   // ***************************** Dijkstra's algorithm ***********************************88
 
+  runDijkstraPath(){
+    this.inProcess = true;    
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode);
+    this.runDijkstaSimulation();
 
+    let path = [];
+    setTimeout(() => {
+      if(this.dijksta.isPathAvail == true){
+        path = this.dijksta.generatePath(this.startNode, this.endNode);
+        this.runPathSimulation(path);
+      }
+    }, this.navigation.algorithmSpeed * (this.dijksta.visited.length-1));
 
+    setTimeout(() => {
+      this.isVisualizing = true;
+      this.inProcess = false;
+    }, this.navigation.algorithmSpeed * (this.dijksta.visited.length-1) + this.navigation.algorithmSpeed*(path.length-1));
+  }
+
+  runDijkstaSimulation(){
+    for (let i = 0; i < this.dijksta.visited.length; i++) {
+      this.child.cellcomponents.forEach((cmp: GridcellComponent) => {
+        var c = this.dijksta.visited[i];
+        if (cmp.cell == this.cells[c[0]][c[1]]) {                    
+          setTimeout(() => {
+            cmp.runChangeDetector();            
+          }, this.navigation.algorithmSpeed * i);
+        }
+      });
+    }
+  }
+
+  runDijkstaReset(){            
+    let id = window.setTimeout(() => {}, 0);
+    while (id) {
+      window.clearTimeout(id);
+      id--;
+    }
+    this.child.resetGridworld();
+    
+
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode);
+    if(this.dijksta.isPathAvail == true){
+      this.dijksta.generatePath(this.startNode, this.endNode);
+    }
+    this.child.refreshGridworld();
+  }
 
 
 
