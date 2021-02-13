@@ -4,4 +4,9 @@ export class Cell{
     prev!:number[];
     dist!:number;
     weight:number = 1;
+
+    // Variable for A* algorithm
+    g!:number;
+    h!:number;
+    f!:number;
 }

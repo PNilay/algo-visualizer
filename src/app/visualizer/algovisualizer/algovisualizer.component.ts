@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Astar } from 'src/app/algorithms/a-star';
 import { BFS } from 'src/app/algorithms/BFS';
 import { DFS } from 'src/app/algorithms/DFS';
 import { Dijksta } from 'src/app/algorithms/Dijkstra';
@@ -20,6 +21,7 @@ export class AlgovisualizerComponent implements OnInit {
   bfs!: BFS;
   dfs!:DFS;
   dijksta!:Dijksta;
+  astar!:Astar;
 
   cells:Cell[][] = [];
   isVisualizing:boolean = false;
@@ -49,6 +51,7 @@ export class AlgovisualizerComponent implements OnInit {
     this.bfs = new BFS(this.cells);
     this.dfs = new DFS(this.cells);
     this.dijksta = new Dijksta(this.cells);
+    this.astar = new Astar(this.cells);
   }
 
 
@@ -61,6 +64,12 @@ export class AlgovisualizerComponent implements OnInit {
       this.runDFSPath();
     }else if(event.algorithm == "Dijkstra"){
       this.runDijkstraPath();
+    }else if(event.algorithm == "A* algorithm"){
+      this.runAstarPath()
+      // console.log(this.cells.length);
+      // console.log(this.cells[0].length);
+      
+      
     }
   }
 
@@ -108,6 +117,8 @@ export class AlgovisualizerComponent implements OnInit {
         this.runDFSReset();
       }else if(this.navigation.algorithm == "Dijkstra"){
         this.runDijkstaReset();
+      }else if(this.navigation.algorithm == "A* algorithm"){
+        this.runAstarReset();
       }
 
     }else if(this.inProcess == true){
@@ -119,7 +130,10 @@ export class AlgovisualizerComponent implements OnInit {
           this.runDFSPath();
         }else if(this.navigation.algorithm == "Dijkstra"){
           this.runDijkstraPath();
+        }else if(this.navigation.algorithm == "A* algorithm"){
+          this.runAstarPath();
         }
+
       }, 100);
     }else{      
       this.resetEverything(true);
@@ -151,6 +165,8 @@ export class AlgovisualizerComponent implements OnInit {
           this.runDFSReset();
         }else if(this.navigation.algorithm == "Dijkstra"){
           this.runDijkstaReset();
+        }else if(this.navigation.algorithm == "A* algorithm"){
+          this.runAstarReset();
         }
       }
     }else{
@@ -308,6 +324,61 @@ export class AlgovisualizerComponent implements OnInit {
     }
     this.child.refreshGridworld();
   }
+
+  // ***************************** A* Algorithm ****************************************
+
+
+  runAstarPath(){
+    this.inProcess = true;    
+    this.astar.runAstar(this.cells, this.startNode, this.endNode);
+    this.runAstarSimulation();
+
+    let path = [];
+    setTimeout(() => {
+      if(this.astar.isPathAvail == true){
+        path = this.astar.generatePath(this.startNode, this.endNode);
+        this.runPathSimulation(path);
+      }
+    }, this.navigation.algorithmSpeed * (this.astar.visited.length-1));
+
+    setTimeout(() => {
+      this.isVisualizing = true;
+      this.inProcess = false;
+    }, this.navigation.algorithmSpeed * (this.astar.visited.length-1) + this.navigation.algorithmSpeed*(path.length-1));
+  }
+
+  runAstarSimulation(){
+    for (let i = 0; i < this.astar.visited.length; i++) {
+      this.child.cellcomponents.forEach((cmp: GridcellComponent) => {
+        var c = this.astar.visited[i];
+        if (cmp.cell == this.cells[c[0]][c[1]]) {                    
+          setTimeout(() => {
+            cmp.runChangeDetector();            
+          }, this.navigation.algorithmSpeed * i);
+        }
+      });
+    }
+  }
+
+  runAstarReset(){            
+    let id = window.setTimeout(() => {}, 0);
+    while (id) {
+      window.clearTimeout(id);
+      id--;
+    }
+    this.child.resetGridworld();
+    
+
+    this.astar.runAstar(this.cells, this.startNode, this.endNode);
+    if(this.astar.isPathAvail == true){
+      this.astar.generatePath(this.startNode, this.endNode);
+    }
+    this.child.refreshGridworld();
+  }
+
+
+
+
 
 
 

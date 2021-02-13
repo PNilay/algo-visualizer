@@ -38,6 +38,7 @@ export class GridcellComponent implements OnInit{
   removeAllTolls(){
     if(this.cell.status == 'toll'){
       this.cell.status = 'open';
+      this.cell.weight = 1;
     }
   }
 
