@@ -1,16 +1,13 @@
 import { Cell } from "../models/cell";
+import { NavInfo } from "../models/navInfo";
+import { AlgoHelper } from "./algo-helper";
 
 export class Dijksta{
-
     gridcells:Cell[][] = [];
-
     visited:any[] = [];
-    // unvisited_neighbors:any[] =[];
-
+    navigation!:NavInfo;
     isPathAvail:boolean = false;
-    
-    constructor(cells:Cell[][]){ 
-        this.gridcells = cells;
+    constructor(){ 
     }
 
     setDistance(point:number[], val:number){
@@ -27,8 +24,9 @@ export class Dijksta{
         return [keys[indexOfLowest], lowest];
     }
 
-    runDijksta(cells:Cell[][], start:number[], end:number[]){
+    runDijksta(cells:Cell[][], start:number[], end:number[], navinformation:NavInfo){
         this.gridcells = cells;
+        this.navigation = navinformation;
         this.isPathAvail = this.Dijksta_Path(start, end);
     }
 
@@ -48,8 +46,13 @@ export class Dijksta{
                 return true;
             }
             this.gridcells[current_pt[0]][current_pt[1]].vertex_status = 'current';
-            var neighbors = this.findNeighbors(current_pt[0], current_pt[1],20,50); // <===============================
-            
+            if(this.navigation.allowDiagonals){
+                var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            }else{
+                var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            }
+
+
             while(neighbors.length != 0){
                 var n = neighbors.shift();
                 if(n){
@@ -93,43 +96,4 @@ export class Dijksta{
         }
         return path;
     }
-
-
-    // // initialize initial distance as large number forr 
-    // initalizeDistance(){
-
-    // }
-    findNeighbors(x:number, y:number, width:number, height:number){
-       var neighbor = []      
-       if((x>0 && y > 0) && (x<width-1 && y <height-1)){
-            var leftX = (x - 1 + width) % width;
-            var rightX = (x + 1) % width;
-            var aboveY = (y - 1 + height) % height;
-            var belowY = (y + 1) % height;
-
-            neighbor.push([rightX, y]);
-            neighbor.push([leftX, y]);
-            neighbor.push([x,aboveY]);
-            neighbor.push([x,belowY]);
-       }else{
-        if(x-1 >= 0){
-            var leftX = (x - 1 + width) % width;
-            neighbor.push([leftX, y]);
-        }
-        if(x+1< width){
-            var rightX = (x + 1) % width;
-            neighbor.push([rightX, y]);
-        }
-        if(y - 1 >= 0){
-            var aboveY = (y - 1 + height) % height;
-            neighbor.push([x,aboveY]);
-        }
-        if(y+1 < height){
-            var belowY = (y + 1) % height;
-            neighbor.push([x, belowY]);
-        }
-       }
-        return neighbor;
-    }
-
 }
