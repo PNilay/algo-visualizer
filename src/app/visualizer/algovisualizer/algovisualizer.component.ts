@@ -17,7 +17,7 @@ export class AlgovisualizerComponent implements OnInit {
 
   @ViewChild('grid') child!: GridworldComponent;
 
-  sizeOfGrid:number[] = [20,50];
+  sizeOfGrid:number[] = [30,60];
   bfs!: BFS;
   dfs!:DFS;
   dijksta!:Dijksta;
@@ -48,10 +48,33 @@ export class AlgovisualizerComponent implements OnInit {
     this.cells[this.startNode[0]][this.startNode[1]].status = 'start';
     this.cells[this.endNode[0]][this.endNode[1]].status ='end';
 
-    this.bfs = new BFS(this.cells);
-    this.dfs = new DFS(this.cells);
-    this.dijksta = new Dijksta(this.cells);
-    this.astar = new Astar(this.cells);
+    this.bfs = new BFS();
+    this.dfs = new DFS();
+    this.dijksta = new Dijksta();
+    this.astar = new Astar();
+
+  }
+
+  ChangeGridSize(event:number){
+    console.log("Change Grid Size");
+    this.cells = [];
+
+    this.sizeOfGrid = [event,2*event];
+
+    this.startNode = [0,1];
+    this.endNode = [5,5];
+
+    for (let y =0; y<this.sizeOfGrid[0]; y++){
+      this.cells[y] =[];
+      for(let x=0; x<this.sizeOfGrid[1]; x++){
+        this.cells[y][x] = new Cell();
+      }
+    }
+    this.cells[this.startNode[0]][this.startNode[1]].status = 'start';
+    this.cells[this.endNode[0]][this.endNode[1]].status ='end';
+
+    this.resetEverything(false);
+    
   }
 
 
@@ -65,11 +88,7 @@ export class AlgovisualizerComponent implements OnInit {
     }else if(event.algorithm == "Dijkstra"){
       this.runDijkstraPath();
     }else if(event.algorithm == "A* algorithm"){
-      this.runAstarPath()
-      // console.log(this.cells.length);
-      // console.log(this.cells[0].length);
-      
-      
+      this.runAstarPath();
     }
   }
 
@@ -91,6 +110,29 @@ export class AlgovisualizerComponent implements OnInit {
     this.child.clearGridWorld();
     }
   }
+
+
+// new reset visualizer function to just stop visualizing for just few seconds and start over
+// Drag and drop when visulaization is in process
+resetDragDropVisualizer(event:boolean){
+  this.isVisualizing = false;
+  // this.inProcess = false;
+  let id = window.setTimeout(() => {}, 0);
+  while (id) {            
+    window.clearTimeout(id);
+    id--;
+  }
+
+  if(event){   
+    // Remove visualization not the walls
+    this.child.resetGridworld();
+  }else{
+  //remove everything from gridworld, including walls
+  // console.log("Reset Everything");
+  this.child.clearGridWorld();
+  }
+}
+
 // _______________________________________________________
 
 // Function runs when start and end node is dragged by user and refreshes the gridworld
@@ -109,8 +151,7 @@ export class AlgovisualizerComponent implements OnInit {
   // if path is in process of visualizing --> start visualization process from begining
   // if no path is  visualizing --> reset everything
   updateAfterDrag(){
-    if(this.isVisualizing == true){   
-
+    if(this.isVisualizing == true){  
       if(this.navigation.algorithm == "BFS"){
         this.runBFSReset();
       }else if(this.navigation.algorithm == "DFS"){
@@ -122,7 +163,8 @@ export class AlgovisualizerComponent implements OnInit {
       }
 
     }else if(this.inProcess == true){
-      this.resetEverything(true);
+      // this.resetEverything(true);
+      this.resetDragDropVisualizer(true);
       let id = window.setTimeout(() => {
         if(this.navigation.algorithm == "BFS"){
           this.runBFSPath();
@@ -135,7 +177,7 @@ export class AlgovisualizerComponent implements OnInit {
         }
 
       }, 100);
-    }else{      
+    }else{            
       this.resetEverything(true);
     }
   }
@@ -179,7 +221,7 @@ export class AlgovisualizerComponent implements OnInit {
 
   runBFSPath(){
     this.inProcess = true;
-    this.bfs.runBFS(this.cells, this.startNode, this.endNode);
+    this.bfs.runBFS(this.cells, this.startNode, this.endNode, this.navigation);
     this.runBFSSimulation();
 
     let path = [];
@@ -218,7 +260,7 @@ export class AlgovisualizerComponent implements OnInit {
     this.child.resetGridworld();
     
 
-    this.bfs.runBFS(this.cells, this.startNode, this.endNode);
+    this.bfs.runBFS(this.cells, this.startNode, this.endNode, this.navigation);
     if(this.bfs.isPathAvail == true){
       this.bfs.generatePath(this.startNode, this.endNode);
     }
@@ -229,7 +271,7 @@ export class AlgovisualizerComponent implements OnInit {
 
   runDFSPath(){
     this.inProcess = true;
-    this.dfs.runDFS(this.cells, this.startNode, this.endNode);
+    this.dfs.runDFS(this.cells, this.startNode, this.endNode, this.navigation);
     this.runDFSSimulation();
 
     let path = [];
@@ -268,7 +310,7 @@ export class AlgovisualizerComponent implements OnInit {
     this.child.resetGridworld();
     
 
-    this.dfs.runDFS(this.cells, this.startNode, this.endNode);
+    this.dfs.runDFS(this.cells, this.startNode, this.endNode, this.navigation);
     if(this.dfs.isPathAvail == true){
       this.dfs.generatePath(this.startNode, this.endNode);
     }
@@ -279,7 +321,7 @@ export class AlgovisualizerComponent implements OnInit {
 
   runDijkstraPath(){
     this.inProcess = true;    
-    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode);
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation);
     this.runDijkstaSimulation();
 
     let path = [];
@@ -318,7 +360,7 @@ export class AlgovisualizerComponent implements OnInit {
     this.child.resetGridworld();
     
 
-    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode);
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation);
     if(this.dijksta.isPathAvail == true){
       this.dijksta.generatePath(this.startNode, this.endNode);
     }
@@ -330,7 +372,7 @@ export class AlgovisualizerComponent implements OnInit {
 
   runAstarPath(){
     this.inProcess = true;    
-    this.astar.runAstar(this.cells, this.startNode, this.endNode);
+    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation);
     this.runAstarSimulation();
 
     let path = [];
@@ -369,17 +411,10 @@ export class AlgovisualizerComponent implements OnInit {
     this.child.resetGridworld();
     
 
-    this.astar.runAstar(this.cells, this.startNode, this.endNode);
+    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation);
     if(this.astar.isPathAvail == true){
       this.astar.generatePath(this.startNode, this.endNode);
     }
     this.child.refreshGridworld();
   }
-
-
-
-
-
-
-
 }
