@@ -1,19 +1,21 @@
 import { Cell } from "../models/cell";
+import { NavInfo } from "../models/navInfo";
+import { AlgoHelper } from "./algo-helper";
 
 export class DFS{
 
     gridcells:Cell[][] = [];
     visited:any[] = [];
     isPathAvail:boolean = false;
-    
+    navigation!:NavInfo;
 
-    constructor(cells:Cell[][]){ 
-        this.gridcells = cells;
+    constructor(){ 
     }
 
-    runDFS(cells:Cell[][], start:number[], end:number[]){
+    runDFS(cells:Cell[][], start:number[], end:number[], navinformation:NavInfo){
         this.gridcells = cells;
-        this.isPathAvail = this.DFS_Path(start, end);
+        this.navigation = navinformation;
+        this.isPathAvail = this.DFS_Path(start, end);        
     }
 
     generatePath(start:number[], end:number[]){
@@ -40,7 +42,12 @@ export class DFS{
                     return true;
                 }
                 this.gridcells[current[0]][current[1]].vertex_status = 'current';
-                var neighbors = this.findNeighbors(current[0], current[1],20,50);
+                if(this.navigation.allowDiagonals){
+                    var neighbors = AlgoHelper.findAllNeighbors(current[0], current[1],this.gridcells.length,this.gridcells[0].length);
+                }else{
+                    var neighbors = AlgoHelper.findNeighbors(current[0], current[1],this.gridcells.length,this.gridcells[0].length);
+                }
+
                 while(neighbors.length != 0){
                     var n = neighbors.shift();
                     if(n){
@@ -59,39 +66,5 @@ export class DFS{
         }
         return false;
 
-    }
-
-
-    findNeighbors(x:number, y:number, width:number, height:number){
-       var neighbor = []      
-       if((x>0 && y > 0) && (x<width-1 && y <height-1)){
-            var leftX = (x - 1 + width) % width;
-            var rightX = (x + 1) % width;
-            var aboveY = (y - 1 + height) % height;
-            var belowY = (y + 1) % height;
-
-            neighbor.push([rightX, y]);
-            neighbor.push([leftX, y]);
-            neighbor.push([x,aboveY]);
-            neighbor.push([x,belowY]);
-       }else{
-        if(x-1 >= 0){
-            var leftX = (x - 1 + width) % width;
-            neighbor.push([leftX, y]);
-        }
-        if(x+1< width){
-            var rightX = (x + 1) % width;
-            neighbor.push([rightX, y]);
-        }
-        if(y - 1 >= 0){
-            var aboveY = (y - 1 + height) % height;
-            neighbor.push([x,aboveY]);
-        }
-        if(y+1 < height){
-            var belowY = (y + 1) % height;
-            neighbor.push([x, belowY]);
-        }
-       }
-        return neighbor;
     }
 }
