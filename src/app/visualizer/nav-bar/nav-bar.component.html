@@ -1,4 +1,5 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
     <a class="navbar-brand navhome" href="#">Algo Visualizer</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -18,27 +19,38 @@
           </div>
         </li>
 
-
         <li class="nav-item dropdown algo">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Grid Size
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'BFS (Breadth First Search)'">10 X 10</a>
-            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'DFS (Depth  First Search)'">10 X 20</a>
-            <a class="dropdown-item" (click)=" this.toVis.algorithm= 'Dijkstra'">50 X 70</a>
+            <a class="dropdown-item" (click)="ResetGridSize(10)">10 X 10</a>
+            <a class="dropdown-item" (click)="ResetGridSize(20)">10 X 20</a>
+            <a class="dropdown-item" (click)="ResetGridSize(30)">50 X 70</a>
           </div>
         </li>
 
-
-
-
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+        <li class="nav-item dropdown algo">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Options
+          </a>
+          <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+            <input type="checkbox" (change)="this.toVis.allowDiagonals= !this.toVis.allowDiagonals">Allow Diagonals<br>
+            <input type="checkbox" (change)="this.toVis.allowBidirection= !this.toVis.allowBidirection">Allow Bidirection <br>
+          </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li> -->
+
+        <li class="nav-item dropdown algo">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Heuristics
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)=" this.toVis.heuristics= 'manhattan'">Manhattan</a>
+            <a class="dropdown-item" (click)=" this.toVis.heuristics= 'euclidean'">Euclidean</a>
+            <a class="dropdown-item" (click)=" this.toVis.heuristics= 'octile'">Octile</a>
+            <a class="dropdown-item" (click)=" this.toVis.heuristics= 'chebyshev'">Chebyshev</a>
+          </div>
+        </li>
 
         <div class="nav-item nav-link speed">
           <div class="form-group">
@@ -47,6 +59,7 @@
           </div>
         </div>
 
+
       </ul>
 
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunVisualizer()">Visualize</button>
@@ -54,6 +67,15 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunReset()">Reset Visualization</button>
       &nbsp; &nbsp;
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunResetAll()">Reset All</button>
-
+      <!-- &nbsp; &nbsp;
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="advance_setting = !advance_setting">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        Advanced Settings
+      </button> -->
     </div>
+
+
+
+    
   </nav>
+

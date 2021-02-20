@@ -10,17 +10,26 @@ export class NavBarComponent implements OnInit {
 
   @Output() information: EventEmitter<NavInfo> = new EventEmitter();
   @Output() reset:  EventEmitter<boolean> = new EventEmitter();
+  @Output() grid_size:  EventEmitter<number> = new EventEmitter();
 
   toVis:NavInfo = new NavInfo();
   favoriteColor:number = 5;
   name!: string;
+
+  advance_setting!:boolean;
  
   constructor(){
     this.toVis.algorithm = "Algorithms";
     this.toVis.algorithmSpeed = 30;
+    this.advance_setting = false;
    }
 
   ngOnInit(): void {
+  }
+
+  handleChange(val:string){
+    console.log("this ischeked", val);
+    
   }
 
   RunVisualizer(){
@@ -36,6 +45,10 @@ export class NavBarComponent implements OnInit {
 
   RunResetAll(){
     this.reset.emit(false);
+  }
+
+  ResetGridSize(n:number){
+    this.grid_size.emit(n);
   }
 
 }
