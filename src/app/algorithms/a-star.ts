@@ -1,13 +1,15 @@
 import { Cell } from "../models/cell";
+import { NavInfo } from "../models/navInfo";
+import { AlgoHelper } from "./algo-helper";
 
 export class Astar{
     gridcells:Cell[][] = [];
     visited:any[] = [];
+    navigation!:NavInfo;
 
     isPathAvail:boolean = false;
     
-    constructor(cells:Cell[][]){ 
-        this.gridcells = cells;
+    constructor(){ 
     }
 
     // This Function assign h values to all cells
@@ -15,18 +17,26 @@ export class Astar{
     Manhattan_Distances(end:number[]){
         for(var i=0; i<this.gridcells.length; i++){
             for(var j=0; j<this.gridcells[0].length; j++){
-                this.gridcells[i][j].h = Math.abs(i-end[0])+Math.abs(j-end[1]);
+                this.gridcells[i][j].h = (1+1/10000000)*(Math.abs(i-end[0])+Math.abs(j-end[1]));
             }
         }
     }
 
     Euclidean_Distance(end:number[]){
-
+        for(var i=0; i<this.gridcells.length; i++){
+            for(var j=0; j<this.gridcells[0].length; j++){
+                var dx = (i-end[0]);
+                var dy = (j-end[1]);
+                this.gridcells[i][j].h = Math.sqrt((dx * dx) + (dy * dy));                
+            }
+        }
     }
 
-    runAstar(cells:Cell[][], start:number[], end:number[]){
+    runAstar(cells:Cell[][], start:number[], end:number[], navinformation:NavInfo){
         this.gridcells = cells;
+        this.navigation = navinformation;
         this.Manhattan_Distances(end);
+        // this.Euclidean_Distance(end);
         this.isPathAvail = this.Astar_Path(start, end);
     }
 
@@ -49,12 +59,22 @@ export class Astar{
             }
 
             this.gridcells[current_pt[0]][current_pt[1]].vertex_status = 'current';
-            var neighbors = this.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            // var neighbors = this.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            // var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length); // <===============================
+            // var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length); // <===============================
+            // var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells,1.2);
+
+            if(this.navigation.allowDiagonals){
+                var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            }else{
+                var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+            }
 
             while(neighbors.length != 0){
                 var n = neighbors.shift();
                 if(n){
-                    if(this.gridcells[n[0]][n[1]].vertex_status == 'unvisited' && this.gridcells[n[0]][n[1]].status != 'close'){
+                    // if(this.gridcells[n[0]][n[1]].vertex_status == 'unvisited' && this.gridcells[n[0]][n[1]].status != 'close'){
+                    if(this.gridcells[n[0]][n[1]].vertex_status != 'visited' && this.gridcells[n[0]][n[1]].status != 'close'){
                         // Check if it thas been added to neighbor's list before or not
                         if(this.gridcells[n[0]][n[1]].vertex_status == 'neighbors'){
                             //It is already in the list, so check previous distance and compare it with new distance
@@ -104,45 +124,4 @@ export class Astar{
         }
         return path;
     }
-
-
-
-
-    findNeighbors(x:number, y:number, width:number, height:number){
-        var neighbor = []      
-        if((x>0 && y > 0) && (x<width-1 && y <height-1)){
-             var leftX = (x - 1 + width) % width;
-             var rightX = (x + 1) % width;
-             var aboveY = (y - 1 + height) % height;
-             var belowY = (y + 1) % height;
- 
-             neighbor.push([rightX, y]);
-             neighbor.push([leftX, y]);
-             neighbor.push([x,aboveY]);
-             neighbor.push([x,belowY]);
-        }else{
-         if(x-1 >= 0){
-             var leftX = (x - 1 + width) % width;
-             neighbor.push([leftX, y]);
-         }
-         if(x+1< width){
-             var rightX = (x + 1) % width;
-             neighbor.push([rightX, y]);
-         }
-         if(y - 1 >= 0){
-             var aboveY = (y - 1 + height) % height;
-             neighbor.push([x,aboveY]);
-         }
-         if(y+1 < height){
-             var belowY = (y + 1) % height;
-             neighbor.push([x, belowY]);
-         }
-        }
-         return neighbor;
-     }
-
-
-
-
-
 }
