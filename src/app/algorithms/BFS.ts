@@ -1,18 +1,21 @@
 import { Cell } from "../models/cell";
+import { NavInfo } from "../models/navInfo";
+import { AlgoHelper } from "./algo-helper";
 
 export class BFS{
 
     gridcells:Cell[][] = [];
     visited:any[] = [];
     isPathAvail:boolean = false;
+    navigation!:NavInfo;
     
 
-    constructor(cells:Cell[][]){ 
-        this.gridcells = cells;
+    constructor(){ 
     }
 
-    runBFS(cells:Cell[][], start:number[], end:number[]){
+    runBFS(cells:Cell[][], start:number[], end:number[] , navinformation:NavInfo){
         this.gridcells = cells;
+        this.navigation = navinformation;
         this.isPathAvail = this.BFS_Path(start, end);
     }
 
@@ -40,12 +43,18 @@ export class BFS{
                     return true;
                 }
                 this.gridcells[current[0]][current[1]].vertex_status = 'current';
-                var neighbors = this.findNeighbors(current[0], current[1],20,50);
+                
+                if(this.navigation.allowDiagonals){
+                    var neighbors = AlgoHelper.findAllNeighbors(current[0], current[1],this.gridcells.length,this.gridcells[0].length);
+                }else{
+                    var neighbors = AlgoHelper.findNeighbors(current[0], current[1],this.gridcells.length,this.gridcells[0].length);
+                }
+
                 while(neighbors.length != 0){
                     var n = neighbors.shift();
                     if(n){
                         if(this.gridcells[n[0]][n[1]].vertex_status == 'unvisited' && this.gridcells[n[0]][n[1]].status != 'close'){
-                            this.gridcells[n[0]][n[1]].vertex_status = 'neighbors';                        
+                            this.gridcells[n[0]][n[1]].vertex_status = 'neighbors';
                             q.push(n);
                             this.gridcells[n[0]][n[1]].prev = current; 
                         }                        
@@ -60,46 +69,4 @@ export class BFS{
         return false;
 
     }
-
-
-    findNeighbors(x:number, y:number, width:number, height:number){
-       var neighbor = []      
-       if((x>0 && y > 0) && (x<width-1 && y <height-1)){
-            var leftX = (x - 1 + width) % width;
-            var rightX = (x + 1) % width;
-            var aboveY = (y - 1 + height) % height;
-            var belowY = (y + 1) % height;
-
-            neighbor.push([rightX, y]);
-            neighbor.push([leftX, y]);
-            neighbor.push([x,aboveY]);
-            neighbor.push([x,belowY]);
-       }else{
-        if(x-1 >= 0){
-            var leftX = (x - 1 + width) % width;
-            neighbor.push([leftX, y]);
-        }
-        if(x+1< width){
-            var rightX = (x + 1) % width;
-            neighbor.push([rightX, y]);
-        }
-        if(y - 1 >= 0){
-            var aboveY = (y - 1 + height) % height;
-            neighbor.push([x,aboveY]);
-        }
-        if(y+1 < height){
-            var belowY = (y + 1) % height;
-            neighbor.push([x, belowY]);
-        }
-       }
-        return neighbor;
-    }
-
-    sleep(milliseconds: number) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-          currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-      }
 }
