@@ -14,6 +14,8 @@
             (dragenter)="DragCancel($event,y,x)"
             (dragleave)="DragCancel($event,y,x)"
             (dragover)="DragCancel($event,y,x)"
+
+            [ngStyle]="{'width': 600/cells.length+'px', 'height':1200/cells[0].length+'px'}"
             >
                 <app-gridcell #cell [cell] = "cells[y][x]"></app-gridcell>
             </td>

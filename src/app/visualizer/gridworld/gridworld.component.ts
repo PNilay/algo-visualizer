@@ -30,7 +30,8 @@ export class GridworldComponent implements OnInit {
   
   constructor(){ };
 
-  ngOnInit(): void { };
+  ngOnInit(): void{ 
+  };
 
   refreshGridworld(){
     this.cellcomponents.forEach((cmp: GridcellComponent) => {
