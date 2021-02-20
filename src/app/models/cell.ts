@@ -9,4 +9,6 @@ export class Cell{
     g!:number;
     h!:number;
     f!:number;
+
+    temp!:number;
 }
