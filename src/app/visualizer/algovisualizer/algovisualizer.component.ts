@@ -238,7 +238,7 @@ resetDragDropVisualizer(event:boolean){
     }, this.navigation.algorithmSpeed * (this.bfs.visited.length-1) + this.navigation.algorithmSpeed*(path.length-1));
   }
 
-  runBFSSimulation(){
+  runBFSSimulation(){   
     for (let i = 0; i < this.bfs.visited.length; i++) {
       this.child.cellcomponents.forEach((cmp: GridcellComponent) => {
         var c = this.bfs.visited[i];

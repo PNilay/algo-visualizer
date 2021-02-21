@@ -4,8 +4,12 @@
     'close_cell':cell.status == 'close',
     'path_cell': cell.vertex_status == 'path' && (cell.status == 'open' || cell.status == 'toll'),
     'current_cell':cell.vertex_status == 'visited' && cell.status == 'open',
-    'neighbor_cell': cell.status == 'toll' && cell.vertex_status != 'path'
+    'neighbor_cell': cell.status == 'toll' && cell.vertex_status != 'path',
+    'visited_start': cell.vertex_status == 'visited_start' && cell.status == 'open',
+    'visited_goal': cell.vertex_status == 'visited_goal' && cell.status == 'open',
+    'middle': cell.status == 'mid'
     }"
 
 >
+<!-- {{cell.prev}} -->
 </div>

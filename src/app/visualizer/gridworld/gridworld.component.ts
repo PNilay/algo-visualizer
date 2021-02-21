@@ -141,6 +141,7 @@ export class GridworldComponent implements OnInit {
   resetGridworld(){
     this.cellcomponents.forEach((cmp: GridcellComponent) => {
         cmp.reset();
+        cmp.removeMid();
         cmp.runChangeDetector();
     });
   }
@@ -148,6 +149,7 @@ export class GridworldComponent implements OnInit {
   clearGridWorld(){
     this.cellcomponents.forEach((cmp: GridcellComponent) => {
       cmp.reset();
+      cmp.removeMid();
       cmp.removeAllWall();
       cmp.removeAllTolls();
       cmp.runChangeDetector();

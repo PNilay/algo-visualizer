@@ -270,6 +270,15 @@ export class AlgoHelper{
             return neighbor;
     }
 
-    
+    static resetDiagonalWeights(cells:Cell[][]){
+        for(var i=0; i<cells.length; i++){
+            for(var j=0; j<cells[0].length; j++){
+                if(cells[i][j].status != 'toll'){
+                    cells[i][j].weight = 1;
+                }
+            }
+        }
+        return cells;
+    }
 
 }

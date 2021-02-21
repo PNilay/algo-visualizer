@@ -29,6 +29,11 @@ export class GridcellComponent implements OnInit{
     this.cell.vertex_status = 'unvisited';
   }
 
+  removeMid(){
+    if(this.cell.status == 'mid'){
+      this.cell.status = 'open';
+    }
+  }
   removeAllWall(){
     if(this.cell.status == 'close'){
       this.cell.status = 'open';

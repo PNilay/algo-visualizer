@@ -12,6 +12,7 @@
             {{ this.toVis.algorithm}}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" style="background-color: aqua;">Algorithms</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'BFS'">BFS (Breadth First Search)</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'DFS'">DFS (Depth  First Search)</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'Dijkstra'">Dijkstra's</a>
@@ -45,6 +46,7 @@
             Heuristics
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" style="background-color: aqua;">Heuristics</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'manhattan'">Manhattan</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'euclidean'">Euclidean</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'octile'">Octile</a>
