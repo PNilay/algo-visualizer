@@ -1,8 +1,8 @@
-<app-nav-bar (information)="infoFromNav($event)" (reset)="resetEverything($event)"  (grid_size)="ChangeGridSize($event)"></app-nav-bar>
+<app-nav-bar (information)="infoFromNav($event)" (reset)="resetEverything($event)"  (grid_size)="ChangeGridSize($event)" (weight_values)="changeWeightValues($event)" (mazesAndPatterns)="change_mazes_pattern($event)"></app-nav-bar>
 <!-- <div class="info"></div> -->
 
 <div class="container-fluid">
     <div class="grid">
-        <app-gridworld #grid [cells] = "cells" [inProcess] = "inProcess"  (iswallClicked)="oniswallClicked($event)" (dragged)="startOrEndDragged($event)"   disable></app-gridworld>
+        <app-gridworld #grid [toll]="toll_weight" [cells] = "cells" [inProcess] = "inProcess"  (iswallClicked)="oniswallClicked($event)" (dragged)="startOrEndDragged($event)"   disable></app-gridworld>
     </div>
 </div>

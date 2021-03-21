@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { Randompatterns } from 'src/app/algorithms/maze_and_pattern_Algorithms/random-patterns';
+import { RecursiveDivisionMaze } from 'src/app/algorithms/maze_and_pattern_Algorithms/recursive-division-maze';
 import { Cell } from '../../models/cell';
 import { GridcellComponent } from '../gridcell/gridcell.component';
 // import { CellComponent } from '../cell/cell.component';
@@ -12,6 +14,7 @@ export class GridworldComponent implements OnInit {
 
   @Input() inProcess:boolean = false;
   @Input() cells:Cell[][] = [];
+  @Input() toll!:number;
 
   @Output() iswallClicked: EventEmitter<boolean> = new EventEmitter();
   @Output() dragged: EventEmitter<any> = new EventEmitter();
@@ -28,7 +31,7 @@ export class GridworldComponent implements OnInit {
 
   prevdragNode!:number[];
   
-  constructor(){ };
+  constructor(private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void{ 
   };
@@ -62,11 +65,12 @@ export class GridworldComponent implements OnInit {
   mouseEnterHandler(y:number,x:number){        
     if(this.mousePressed &&  !this.inProcess){
       if(this.prev_mouseEnter != y+x){ 
-        if(this.leftOrRight){
+        if(this.leftOrRight){          
           //right button pressed
-          if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'close'){ 
+          if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'close'){             
             this.cells[y][x].status = 'toll';
-            this.cells[y][x].weight = 10;
+            // this.cells[y][x].weight = 10;
+            this.cells[y][x].weight = this.toll;
             this.prev_mouseEnter = y+x;
             this.refreshGridworld();
             return;
@@ -99,7 +103,7 @@ export class GridworldComponent implements OnInit {
   // right button --> Create toll
   mouseDownHandler(event:any, y:number,x:number){
     if(!this.inProcess){
-      if(this.cells[y][x].status != 'start' || this.cells[y][x].status != 'end' ){
+      if(this.cells[y][x].status != 'start' && this.cells[y][x].status != 'end' ){
         this.prev_mouseEnter = y+x;
 
         if(event.button == 0){
@@ -120,8 +124,12 @@ export class GridworldComponent implements OnInit {
             this.cells[y][x].status = 'open';
           }
           else{
+
+            // console.log("Toll : ", this.toll);
+            // this.generateRandomPatterns();
             this.cells[y][x].status = 'toll';
-            this.cells[y][x].weight = 10;
+            // this.cells[y][x].weight = 10;
+            this.cells[y][x].weight = this.toll;
           }
         }
         this.mousePressed = true;        
@@ -210,6 +218,57 @@ export class GridworldComponent implements OnInit {
     }
     event.preventDefault();
   }
+
+
+  createWall(index:number[]){    
+    if(this.cells[index[0]][index[1]].status != 'start' &&  this.cells[index[0]][index[1]].status != 'end'){
+      if(this.cells[index[0]][index[1]].status == 'open'){
+        this.cells[index[0]][index[1]].status = 'close';
+      }else{
+        this.cells[index[0]][index[1]].status = 'open';
+      }
+    }
+  }
+
+  delay(value:number[]) {
+    setTimeout(() => {
+      this.createWall(value);
+      this.cellcomponents.forEach((cmp: GridcellComponent) => {
+        if (cmp.cell == this.cells[value[0]][value[1]]) {                    
+            cmp.runChangeDetector();            
+        }
+      });
+    }, 1000);
+  }
+
+
+  generateRandomPatterns(){
+    Randompatterns.generateRandomPattern(this.cells);
+    
+    // var queue: number[][] = [];
+    // var rd = new RecursiveDivisionMaze();
+    // rd.RecursiveDivision(this.cells, [0,0], [this.cells.length-1,this.cells[0].length-1], 0, queue);
+    // for(var i =0;i<queue.length; i++){
+    //   var value = queue[i];
+    //   if(value){
+    //     this.delay(value);
+    //   }
+    // }
+    
+  }
+
+  generateRecursiveDivisionMaze(orientation:number){
+    var queue: number[][] = [];
+    var rd = new RecursiveDivisionMaze();
+    rd.RecursiveDivision(this.cells, [0,0], [this.cells.length-1,this.cells[0].length-1], orientation, queue);
+    for(var i =0;i<queue.length; i++){
+      var value = queue[i];
+      if(value){
+        this.delay(value);
+      }
+    }
+  }
+
   }
 
 

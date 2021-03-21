@@ -29,7 +29,8 @@ export class AlgovisualizerComponent implements OnInit {
 
 
   navigation!:NavInfo;
-
+  diagonal_weight!:number;
+  toll_weight!:number;
 
   startNode:number[] = [0,9];
   endNode:number[] = [15,40];
@@ -82,6 +83,9 @@ export class AlgovisualizerComponent implements OnInit {
   infoFromNav(event:NavInfo){
     this.navigation = event;
     if(event.algorithm == "BFS"){
+      // this.generateRandomPatterns();
+      // console.log("Run Sucess");
+      
       this.runBFSPath();
     }else if(event.algorithm == "DFS"){      
       this.runDFSPath();
@@ -111,27 +115,53 @@ export class AlgovisualizerComponent implements OnInit {
     }
   }
 
+  changeWeightValues(event:number[]){
+    this.diagonal_weight = event[0];
+    this.toll_weight = event[1];
+    console.log("Change Weght Values", event);
+    
+  }
+
+  change_mazes_pattern(event:string){
+    if(event == 'Random Pattern'){
+      this.child.generateRandomPatterns();
+    }else if(event == 'Recursive Division'){
+      this.child.generateRecursiveDivisionMaze(0);
+    }else if(event == 'Recursive Division (Verticle skew)'){
+      this.child.generateRecursiveDivisionMaze(-1);
+    }else if(event == 'Recursive Division (Horizontal skew)'){
+      this.child.generateRecursiveDivisionMaze(1);
+    }
+  }
+  generateRandomPatterns(){
+    for (let y =0; y<this.sizeOfGrid[0]; y++){
+      for(let x=0; x<this.sizeOfGrid[1]; x++){
+        this.cells[y][x].status = 'close';
+      }
+    }
+  }
+
 
 // new reset visualizer function to just stop visualizing for just few seconds and start over
 // Drag and drop when visulaization is in process
-resetDragDropVisualizer(event:boolean){
-  this.isVisualizing = false;
-  // this.inProcess = false;
-  let id = window.setTimeout(() => {}, 0);
-  while (id) {            
-    window.clearTimeout(id);
-    id--;
-  }
+  resetDragDropVisualizer(event:boolean){
+    this.isVisualizing = false;
+    // this.inProcess = false;
+    let id = window.setTimeout(() => {}, 0);
+    while (id) {            
+      window.clearTimeout(id);
+      id--;
+    }
 
-  if(event){   
-    // Remove visualization not the walls
-    this.child.resetGridworld();
-  }else{
-  //remove everything from gridworld, including walls
-  // console.log("Reset Everything");
-  this.child.clearGridWorld();
+    if(event){   
+      // Remove visualization not the walls
+      this.child.resetGridworld();
+    }else{
+    //remove everything from gridworld, including walls
+    // console.log("Reset Everything");
+    this.child.clearGridWorld();
+    }
   }
-}
 
 // _______________________________________________________
 
@@ -321,7 +351,7 @@ resetDragDropVisualizer(event:boolean){
 
   runDijkstraPath(){
     this.inProcess = true;    
-    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation);
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation , this.diagonal_weight);
     this.runDijkstaSimulation();
 
     let path = [];
@@ -339,7 +369,9 @@ resetDragDropVisualizer(event:boolean){
   }
 
   runDijkstaSimulation(){
+    console.log("Visited length: ", this.dijksta.visited.length);
     for (let i = 0; i < this.dijksta.visited.length; i++) {
+      
       this.child.cellcomponents.forEach((cmp: GridcellComponent) => {
         var c = this.dijksta.visited[i];
         if (cmp.cell == this.cells[c[0]][c[1]]) {                    
@@ -360,7 +392,7 @@ resetDragDropVisualizer(event:boolean){
     this.child.resetGridworld();
     
 
-    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation);
+    this.dijksta.runDijksta(this.cells, this.startNode, this.endNode, this.navigation, this.diagonal_weight);
     if(this.dijksta.isPathAvail == true){
       this.dijksta.generatePath(this.startNode, this.endNode);
     }
@@ -372,7 +404,7 @@ resetDragDropVisualizer(event:boolean){
 
   runAstarPath(){
     this.inProcess = true;    
-    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation);
+    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation, this.diagonal_weight);
     this.runAstarSimulation();
 
     let path = [];
@@ -411,7 +443,7 @@ resetDragDropVisualizer(event:boolean){
     this.child.resetGridworld();
     
 
-    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation);
+    this.astar.runAstar(this.cells, this.startNode, this.endNode, this.navigation, this.diagonal_weight);
     if(this.astar.isPathAvail == true){
       this.astar.generatePath(this.startNode, this.endNode);
     }
