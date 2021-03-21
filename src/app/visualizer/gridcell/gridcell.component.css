@@ -42,6 +42,23 @@ div {
   width: 100%;
   height: 100%;
   background-color: blueviolet;
+  animation-name: example;
+  animation-timing-function: ease;
+  animation-duration: 20s;
+}
+@keyframes example {
+  0% {
+    background-color: red;
+  }
+  25% {
+    background-color: orangered;
+  }
+  50% {
+    background-color: orange;
+  }
+  100% {
+    background-color: lightsalmon;
+  }
 }
 
 .visited_start {
