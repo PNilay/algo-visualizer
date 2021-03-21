@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
     NavBarComponent,
     GridcellComponent,
     AlgovisualizerComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

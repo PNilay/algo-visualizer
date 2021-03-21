@@ -30,34 +30,42 @@ export class BFS{
         }        
     }
 
+    // generatePath(start:number[], end:number[]){
+    //     var path = [];
+
+    //     if(this.navigation.allowBidirection){            
+    //         var prev = this.start_mid;
+    //         while(!(prev[0]==start[0] && prev[1]==start[1])){
+    //             path.push(prev);
+    //             this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
+    //             prev = this.gridcells[prev[0]][prev[1]].prev;
+    //         }
+
+    //         prev = this.end_mid;
+    //         while(!(prev[0]==end[0] && prev[1]==end[1])){
+    //             path.push(prev);
+    //             this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
+    //             prev = this.gridcells[prev[0]][prev[1]].prev;
+    //         }
+    //     }else{
+    //         var prev = this.gridcells[end[0]][end[1]].prev;
+    //         while(!(prev[0]==start[0] && prev[1]==start[1])){
+    //             path.push(prev);
+    //             this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
+    //             prev = this.gridcells[prev[0]][prev[1]].prev;
+    //         }
+    //     }
+    //     return path;
+    // }
+
     generatePath(start:number[], end:number[]){
-        var path = [];
-
-        if(this.navigation.allowBidirection){            
-            var prev = this.start_mid;
-            while(!(prev[0]==start[0] && prev[1]==start[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev;
-            }
-
-            prev = this.end_mid;
-            while(!(prev[0]==end[0] && prev[1]==end[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev;
-            }
+        if(this.navigation.allowBidirection){
+            return AlgoHelper.generateBidirectionPath(start, end, this.gridcells, this.start_mid, this.end_mid);
         }else{
-            var prev = this.gridcells[end[0]][end[1]].prev;
-            while(!(prev[0]==start[0] && prev[1]==start[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev;
-            }
+            return AlgoHelper.generatePath(start, end, this.gridcells);
         }
-        return path;
     }
-
+    
     BFS_Path(start:number[], end:number[]){
         var q = [];
         this.visited = [];

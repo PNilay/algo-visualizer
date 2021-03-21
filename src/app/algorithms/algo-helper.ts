@@ -1,4 +1,5 @@
 import { Cell } from "../models/cell";
+import { NavInfo } from "../models/navInfo";
 
 export class AlgoHelper{
 
@@ -125,7 +126,6 @@ export class AlgoHelper{
     }
         return neighbor;
     }
-
     // find all neighbors allow diagonal
     static findAllNeighborsWithWeightedDiagonals(x:number, y:number, width:number, height:number, cells:Cell[][],  diagonalWeight:number){
         var neighbor = []      
@@ -279,6 +279,55 @@ export class AlgoHelper{
             }
         }
         return cells;
+    }
+
+    static generateWeightedBidirectionPath(start:number[], end:number[], cells:Cell[][], start_mid:number[], end_mid:number[]){
+        var path = [];
+          
+        var prev = start_mid;
+        while(!(prev[0]==start[0] && prev[1]==start[1])){
+            path.push(prev);
+            cells[prev[0]][prev[1]].vertex_status = 'path';
+            prev = cells[prev[0]][prev[1]].prev;
+        }
+
+        prev = end_mid;
+        while(!(prev[0]==end[0] && prev[1]==end[1])){
+            path.push(prev);
+            cells[prev[0]][prev[1]].vertex_status = 'path';
+            prev = cells[prev[0]][prev[1]].prev_goal;
+        }
+        return path;
+    }
+
+    static generateBidirectionPath(start:number[], end:number[], cells:Cell[][], start_mid:number[], end_mid:number[]){
+        var path = [];
+          
+        var prev = start_mid;
+        while(!(prev[0]==start[0] && prev[1]==start[1])){
+            path.push(prev);
+            cells[prev[0]][prev[1]].vertex_status = 'path';
+            prev = cells[prev[0]][prev[1]].prev;
+        }
+
+        prev = end_mid;
+        while(!(prev[0]==end[0] && prev[1]==end[1])){
+            path.push(prev);
+            cells[prev[0]][prev[1]].vertex_status = 'path';
+            prev = cells[prev[0]][prev[1]].prev;
+        }
+        return path;
+    }
+    static generatePath(start:number[], end:number[], cells:Cell[][]){
+        var path = [];
+
+        var prev = cells[end[0]][end[1]].prev;
+        while(!(prev[0]==start[0] && prev[1]==start[1])){
+            path.push(prev);
+            cells[prev[0]][prev[1]].vertex_status = 'path';
+            prev = cells[prev[0]][prev[1]].prev;
+        }
+        return path;
     }
 
 }

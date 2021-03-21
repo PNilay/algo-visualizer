@@ -12,6 +12,7 @@ export class Astar{
     start_mid:number[] =[];
     end_mid:number[] =[];
 
+    diagonal_weight:number = 1;
     constructor(){ 
     }
 
@@ -55,9 +56,10 @@ export class Astar{
         }
     }
 
-    runAstar(cells:Cell[][], start:number[], end:number[], navinformation:NavInfo){
+    runAstar(cells:Cell[][], start:number[], end:number[], navinformation:NavInfo, diagonal_weight:number){
         this.gridcells = cells;
         this.navigation = navinformation;
+        this.diagonal_weight = diagonal_weight;
 
         if(this.navigation.heuristics == 'euclidean'){
             this.Euclidean_Distance(end);
@@ -76,13 +78,10 @@ export class Astar{
 
             this.isPathAvail = this.Astar_Bidirection_Path(start, end);
             this.gridcells = AlgoHelper.resetDiagonalWeights(this.gridcells);
-            console.log("is path available?", this.isPathAvail);
-            // this.isPathAvail = false;
             
-        }else{
-            console.log("Bidirection singlee");
-            
+        }else{            
             this.isPathAvail = this.Astar_Path(start, end);
+            this.gridcells = AlgoHelper.resetDiagonalWeights(this.gridcells);
         }
 
     }
@@ -107,9 +106,9 @@ export class Astar{
             this.gridcells[current_pt[0]][current_pt[1]].vertex_status = 'current';
            
             if(this.navigation.allowDiagonals){
-                var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+                // var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
 
-                // var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, 50);
+                var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, this.diagonal_weight);
             }else{
                 var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
             }
@@ -158,49 +157,11 @@ export class Astar{
 
 
     generatePath(start:number[], end:number[]){
-        // var path = [];
-
-        // var prev = this.gridcells[end[0]][end[1]].prev;
-        // while(!(prev[0]==start[0] && prev[1]==start[1])){
-        //     path.push(prev);
-        //     this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-        //     prev = this.gridcells[prev[0]][prev[1]].prev;
-        // }
-        // return path;
-
-
-        var path = [];
-
-        if(this.navigation.allowBidirection){            
-            var prev = this.start_mid;
-            // console.log("Start mid: ", prev);
-            
-            while(!(prev[0]==start[0] && prev[1]==start[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev;
-
-                // console.log("Start====================== mid: ", prev);
-
-            }
-
-            prev = this.end_mid;
-            // console.log("end mid: ", prev);
-            while(!(prev[0]==end[0] && prev[1]==end[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev_goal;
-                // console.log("end====================== mid: ", prev);
-            }
+        if(this.navigation.allowBidirection){
+            return AlgoHelper.generateWeightedBidirectionPath(start, end, this.gridcells, this.start_mid, this.end_mid);
         }else{
-            var prev = this.gridcells[end[0]][end[1]].prev;
-            while(!(prev[0]==start[0] && prev[1]==start[1])){
-                path.push(prev);
-                this.gridcells[prev[0]][prev[1]].vertex_status = 'path';
-                prev = this.gridcells[prev[0]][prev[1]].prev;
-            }
+            return AlgoHelper.generatePath(start, end, this.gridcells);
         }
-        return path;
     }
 
 
@@ -233,8 +194,9 @@ export class Astar{
                 if(this.navigation.allowDiagonals){
 
                     // var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, 0);
+                    var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, this.diagonal_weight);
 
-                    var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+                    // var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
                 }else{
                     var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
                 }
@@ -300,8 +262,9 @@ export class Astar{
                 this.gridcells[current_pt[0]][current_pt[1]].vertex_status = 'current';
                 if(this.navigation.allowDiagonals){
                     // var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, 50);
+                    var neighbors = AlgoHelper.findAllNeighborsWithWeightedDiagonals(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length, this.gridcells, this.diagonal_weight);
 
-                    var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
+                    // var neighbors = AlgoHelper.findAllNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
                 }else{
                     var neighbors = AlgoHelper.findNeighbors(current_pt[0], current_pt[1],this.gridcells.length,this.gridcells[0].length);
                 }
