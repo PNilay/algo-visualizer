@@ -1,6 +1,6 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
-    <a class="navbar-brand navhome" href="#">Algo Visualizer</a>
+    <a class="navbar-brand navhome" href="#">Algo <br> Visualizer</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,10 +9,10 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown algo">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ this.toVis.algorithm}}
+            <!-- {{ this.toVis.algorithm}} -->Algorithms
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" style="background-color: aqua;">Algorithms</a>
+            <a class="dropdown-item dropdown_title">Algorithms</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'BFS'">BFS (Breadth First Search)</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'DFS'">DFS (Depth  First Search)</a>
             <a class="dropdown-item" (click)=" this.toVis.algorithm= 'Dijkstra'">Dijkstra's</a>
@@ -25,9 +25,12 @@
             Grid Size
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" (click)="ResetGridSize(10)">10 X 10</a>
-            <a class="dropdown-item" (click)="ResetGridSize(20)">10 X 20</a>
-            <a class="dropdown-item" (click)="ResetGridSize(30)">50 X 70</a>
+            <a class="dropdown-item dropdown_title">Grid Size</a>
+            <a class="dropdown-item" (click)="ResetGridSize(10)">10 X 20</a>
+            <a class="dropdown-item" (click)="ResetGridSize(20)">20 X 40</a>
+            <a class="dropdown-item" (click)="ResetGridSize(30)">30 X 60</a>
+            <a class="dropdown-item" (click)="ResetGridSize(40)">40 X 80</a>
+            <a class="dropdown-item" (click)="ResetGridSize(50)">50 X 100</a>
           </div>
         </li>
 
@@ -35,9 +38,38 @@
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Options
           </a>
-          <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-            <input type="checkbox" (change)="this.toVis.allowDiagonals= !this.toVis.allowDiagonals">Allow Diagonals<br>
-            <input type="checkbox" (change)="this.toVis.allowBidirection= !this.toVis.allowBidirection">Allow Bidirection <br>
+
+          <div class="dropdown-menu" style="width: 400px;" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item dropdown_title" style="width: 100%;">Advance Options</a>
+            
+            <div class="advance_options row" aria-labelledby="navbarDropdown">
+              <table style="width:100%; font-weight: normal;">
+                <tr>
+                  <th style="width:50%; font-weight: normal;">
+                    <input type="checkbox" (change)="this.toVis.allowDiagonals= !this.toVis.allowDiagonals"> Allow Diagonals
+                  </th>
+                  <th style="font-weight: normal;">
+                    Diagonal Weight
+              
+                  </th>
+                  <th>
+                    <input type="number" step="0.1" max="100" min="1" value= {{this.diagonal_weight}} id="diagonal_w" class="quantity-field" [(ngModel)]="this.diagonal_weight" (focusout)="updateWeights(); ">
+                  </th>
+                </tr>
+                <tr>
+                  <th style="width:50%; font-weight: normal;">
+                    <input type="checkbox" (change)="this.toVis.allowBidirection= !this.toVis.allowBidirection"> Allow Bidirection
+                  </th>
+                  <th style="font-weight: normal;">
+                    Toll Node Weight
+                  </th>
+                  <th>
+                    <input type="number" step="0.1" max="100" min="1" value="{{this.toll_weight}}" id="toll_w" class="quantity-field" [(ngModel)]="this.toll_weight" (focusout)="updateWeights();" >
+                  </th>
+                </tr>
+              </table>
+            </div>
+
           </div>
         </li>
 
@@ -46,11 +78,27 @@
             Heuristics
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" style="background-color: aqua;">Heuristics</a>
+            <a class="dropdown-item dropdown_title" >Heuristics</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'manhattan'">Manhattan</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'euclidean'">Euclidean</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'octile'">Octile</a>
             <a class="dropdown-item" (click)=" this.toVis.heuristics= 'chebyshev'">Chebyshev</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown algo">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Pattern and Mazes
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item dropdown_title">Pattern and Mazes</a>
+            <a class="dropdown-item" (click)="mazesAndPattern('Blank Grid')">Blank Grid</a>
+            <a class="dropdown-item" (click)="mazesAndPattern('Random Pattern')">Random Pattern</a>
+            <a class="dropdown-item" (click)="mazesAndPattern('Recursive Division')">Recursive Division</a>
+            <a class="dropdown-item" (click)="mazesAndPattern('Recursive Division (Verticle skew)')">Recursive Division (Verticle skew)</a>
+            <a class="dropdown-item" (click)="mazesAndPattern('Recursive Division (Horizontal skew)')">Recursive Division (Horizontal skew)</a>
+            <!-- <a class="dropdown-item" (click)="mazesAndPattern('Basic Random Maze')">Basic Random Maze</a> -->
+            <!-- <a class="dropdown-item" (click)="mazesAndPattern('Basic Weight Maze')">Basic Weight Maze</a> -->
           </div>
         </li>
 
@@ -64,7 +112,7 @@
 
       </ul>
 
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunVisualizer()">Visualize</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunVisualizer()">Visualize {{this.toVis.algorithm}}</button>
       &nbsp; &nbsp;
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="RunReset()">Reset Visualization</button>
       &nbsp; &nbsp;
