@@ -1,0 +1,22 @@
+.main_color_rep {
+  width: 500px;
+  height: 200px;
+  margin: auto;
+}
+
+.start_node {
+  height: 50px;
+}
+.start {
+  float: left;
+  height: 30px;
+  width: 30px;
+  background-color: sandybrown;
+
+  margin-left: 10px;
+}
+
+.statr_txt {
+  float: left;
+  margin-left: 5px;
+}
