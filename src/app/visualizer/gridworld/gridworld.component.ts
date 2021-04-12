@@ -165,12 +165,14 @@ export class GridworldComponent implements OnInit {
   }
 
 
-  DragStart(event:any,y:number,x:number) {
+  DragStart(event:any,y:number,x:number) {    
     if(this.cells[y][x].status != 'start' &&  this.cells[y][x].status != 'end'){
       event.preventDefault();
     }else{
       this.dragNode = [y,x];
       this.dragType = this.cells[y][x].status == 'start';
+      console.log("Drag Start at : ",y,x);
+      
     }
   }
 
@@ -178,7 +180,7 @@ export class GridworldComponent implements OnInit {
     event.preventDefault();
   }
 
-  MouseUp(event:any, y:number, x:number){
+  MouseUp(event:any, y:number, x:number){    
     this.mousePressed = false;
 
     if(this.cells[y][x].status !!= 'end' && this.cells[y][x].status !!= 'start'){
@@ -195,7 +197,10 @@ export class GridworldComponent implements OnInit {
   }
   }
 
-  DragCancel(event: Event , y:number, x:number) {
+  DragCancel(event: DragEvent , y:number, x:number) {
+    // console.log("event-- ", event);
+    // console.log("eelement frorm point,",document.elementFromPoint(event.clientX, event.clientY)?.parentElement);
+    
     if(this.dragNode[0] != y && this.dragNode[1] != x){
       // console.log("drag cancel", x,y, this.dragNode, this.dragType);
       if(this.cells[y][x].status == 'start' ||  this.cells[y][x].status == 'end'){
@@ -205,13 +210,13 @@ export class GridworldComponent implements OnInit {
           this.cells[this.dragNode[0]][this.dragNode[1]].status = 'open';
           this.cells[y][x].status = 'start';
           this.dragNode = [y,x];
-          this.dragType = this.cells[y][x].status == 'start';
+          this.dragType = true;
           this.dragged.emit([true,y,x]);
         }else{
           this.cells[this.dragNode[0]][this.dragNode[1]].status = 'open';
           this.cells[y][x].status = 'end';
           this.dragNode = [y,x];
-          this.dragType = this.cells[y][x].status == 'start';
+          this.dragType = false;
           this.dragged.emit([false,y,x])
         }
       }
