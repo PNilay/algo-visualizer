@@ -8,6 +8,9 @@ import { NavBarComponent } from './visualizer/nav-bar/nav-bar.component';
 import { GridcellComponent } from './visualizer/gridcell/gridcell.component';
 import { AlgovisualizerComponent } from './visualizer/algovisualizer/algovisualizer.component';
 import { FormsModule } from '@angular/forms';
+import { SimpleNotificationsModule } from "angular2-notifications";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColorRepresentationComponent } from './visualizer/helper_components/color-representation/color-representation.component';
 
 
 
@@ -17,12 +20,15 @@ import { FormsModule } from '@angular/forms';
     GridworldComponent,
     NavBarComponent,
     GridcellComponent,
-    AlgovisualizerComponent
+    AlgovisualizerComponent,
+    ColorRepresentationComponent
     ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
