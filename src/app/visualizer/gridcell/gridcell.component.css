@@ -2,16 +2,11 @@ div {
   width: 100%;
   height: 100%;
 }
-.cell_color {
-  width: 100%;
-  height: 100%;
-  background-color: goldenrod;
-}
 
 .start_cell {
   width: 100%;
   height: 100%;
-  background-color: red;
+  background-color: #ff005f;
 }
 
 .end_cell {
@@ -23,58 +18,232 @@ div {
 .close_cell {
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: #000347;
+
+  animation-name: wall_animation;
+  animation-timing-function: ease;
+  animation-duration: 4s;
+}
+@keyframes wall_animation {
+  0% {
+    background-color: #333685;
+  }
+  20% {
+    background-color: #000466;
+  }
+  40% {
+    background-color: #000466;
+  }
+  60% {
+    background-color: #00045c;
+  }
+  80% {
+    background-color: #000352;
+  }
+  100% {
+    background-color: #000347;
+  }
 }
 
-.neighbor_cell {
-  width: 100%;
-  height: 100%;
-  background-color: indianred;
+/* .current_cell:hover {
+  animation-name: visited_animation_hover;
+  animation-timing-function: ease;
+  animation-duration: 1s;
 }
+
+@keyframes visited_animation_hover {
+  0% {
+    border-radius: 15%;
+    background-color: #ffa733;
+  }
+  20% {
+    border-radius: 15%;
+    background-color: #ffa733;
+  }
+  40% {
+    border-radius: 15%;
+    background-color: #ffa733;
+  }
+  60% {
+    border-radius: 10%;
+    background-color: #ffbb00;
+  }
+  80% {
+    border-radius: 5%;
+    background-color: #ffee00;
+  }
+  100% {
+    border-radius: 5%;
+    background-color: #ffd300;
+  }
+} */
 
 .current_cell {
   width: 100%;
   height: 100%;
-  background-color: yellow;
+  /* background-color: yellow; */
+  /* background-color: #00ffa0; */
+  background-color: #ffd300;
+  animation-name: visited_animation;
+  animation-timing-function: ease;
+  animation-duration: 1s;
+}
+@keyframes visited_animation {
+  0% {
+    border-radius: 35%;
+    background-color: #ff005f;
+  }
+  20% {
+    border-radius: 30%;
+    background-color: #ff5233;
+  }
+  40% {
+    border-radius: 25%;
+    background-color: #ffa733;
+  }
+  60% {
+    border-radius: 20%;
+    background-color: #ffbb00;
+  }
+  80% {
+    border-radius: 10%;
+    /* background-color: #000352; */
+    background-color: #ffee00;
+  }
+  100% {
+    border-radius: 0%;
+    background-color: #ffd300;
+  }
 }
 
 .path_cell {
   width: 100%;
   height: 100%;
-  background-color: blueviolet;
-  animation-name: example;
+  background-color: dodgerblue;
+  animation-name: path_animation;
   animation-timing-function: ease;
-  animation-duration: 20s;
+  animation-duration: 1s;
 }
-@keyframes example {
+@keyframes path_animation {
   0% {
-    background-color: red;
+    border-radius: 35%;
+    background-color: #0a26c4;
   }
-  25% {
-    background-color: orangered;
+  20% {
+    border-radius: 30%;
+    background-color: #1d0ac4;
   }
-  50% {
-    background-color: orange;
+  40% {
+    border-radius: 25%;
+    background-color: #610ac4;
+  }
+  60% {
+    border-radius: 20%;
+    background-color: #a333ff;
+  }
+  80% {
+    border-radius: 10%;
+    background-color: #ff33ff;
   }
   100% {
-    background-color: lightsalmon;
+    border-radius: 0%;
+    background-color: #b40ac4;
   }
+}
+
+.toll_cell {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(230, 120, 120);
+  /* filter: brightness(30%); */
 }
 
 .visited_start {
   width: 100%;
   height: 100%;
-  background-color: orange;
+  /* background-color: orange; */
+  /* background-color: #e9530d; */
+  /* background-color: #0de9d4; */
+  background-color: #00ffb6;
+  animation-name: visited_start_animation;
+  animation-timing-function: ease;
+  animation-duration: 1s;
+}
+@keyframes visited_start_animation {
+  0% {
+    border-radius: 35%;
+    /* background-color: #ff005f; */
+    background-color: #e5ff00;
+  }
+  20% {
+    border-radius: 30%;
+    background-color: #3cff00;
+  }
+  40% {
+    border-radius: 25%;
+    background-color: #00ff37;
+  }
+  60% {
+    border-radius: 20%;
+    background-color: #00ff95;
+  }
+  80% {
+    border-radius: 10%;
+    /* background-color: #000352; */
+    background-color: #00ff95;
+  }
+  100% {
+    border-radius: 0%;
+    background-color: #00ffb6;
+  }
 }
 
 .visited_goal {
   width: 100%;
   height: 100%;
-  background-color: magenta;
+  /* background-color: magenta; */
+  /* background-color: #e90dc6; */
+  /* background-color: rgb(240, 189, 145); */
+  /* background-color: #c8ff00; */
+  background-color: #cc00ff;
+  animation-name: visited_goal_animation;
+  animation-timing-function: ease;
+  animation-duration: 1s;
+}
+@keyframes visited_goal_animation {
+  0% {
+    border-radius: 35%;
+    /* background-color: #ff005f; */
+    background-color: #ff0062;
+  }
+  20% {
+    border-radius: 30%;
+    background-color: #ff008c;
+  }
+  40% {
+    border-radius: 25%;
+    background-color: #ff00aa;
+  }
+  60% {
+    border-radius: 20%;
+    background-color: #ff00c8;
+  }
+  80% {
+    border-radius: 10%;
+    /* background-color: #000352; */
+    background-color: #ff00f2;
+  }
+  100% {
+    border-radius: 0%;
+    background-color: #cc00ff;
+  }
 }
 
 .middle {
   width: 100%;
   height: 100%;
-  background-color: firebrick;
+  background-color: #ffd300;
+  animation-name: visited_animation;
+  animation-timing-function: ease;
+  animation-duration: 2s;
 }

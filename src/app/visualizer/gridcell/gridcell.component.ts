@@ -10,6 +10,9 @@ import { Cell } from '../../models/cell';
 export class GridcellComponent implements OnInit{
 
   @Input('cell') cell!: Cell;
+  // @Input('toll_weight') toll_weight!: number;
+
+  bri:string = 'brightness(130%)';
   isdraggable:boolean = false;
   
   constructor(private ref: ChangeDetectorRef) { }
@@ -45,6 +48,17 @@ export class GridcellComponent implements OnInit{
       this.cell.status = 'open';
       this.cell.weight = 1;
     }
+  }
+
+  getFilterIntensity(){
+    if(this.cell.status == 'toll' && this.cell.vertex_status != 'path'){
+      var intensity  = 130 - (this.cell.weight);
+      return 'brightness('+intensity+'%)';
+      
+      // return "brightness("+intensity+"%)";
+      // [style.background-color]="getFilterIntensity()"
+    }
+    return 'brightness(130%)';
   }
 
 }
