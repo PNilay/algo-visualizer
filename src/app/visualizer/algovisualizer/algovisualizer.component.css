@@ -6,13 +6,47 @@
   padding-bottom: 50px;
 }
 
+.btn_navbar {
+  position: absolute;
+  height: 80px;
+  width: 450px;
+  top: 0;
+  right: 10px;
+  z-index: -2;
+}
+
+.walkthrough_tutorial {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  overflow: hidden;
+  text-align: center;
+}
+.center_div {
+  margin: auto;
+  position: fixed;
+  width: 50%;
+  margin-top: 20%;
+  margin-left: 25%;
+  border: 3px solid green;
+  background-color: aquamarine;
+  padding: 10px;
+}
+
+.tutorial_btn {
+  background-color: cornsilk;
+  margin-top: 80px;
+  margin-left: 10px;
+  width: 200px;
+}
 .container-fluid {
   width: 100%;
   height: 100vh;
   text-align: center;
-  padding-top: 20px;
-  margin-bottom: 50px;
-  padding-bottom: 50px;
+  padding-top: 10px;
+  /* margin-bottom: 250px; */
+  padding-bottom: 20px;
 }
 
 .info {
@@ -28,4 +62,33 @@
   margin: 15px;
   padding: 10px;
   border: 5px solid red;
+}
+
+.footer {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  height: 50px;
+
+  background-color: #f8f9fa !important;
+
+  /* background-color: #212529; */
+  bottom: -20px;
+}
+
+.start_node {
+  height: 50px;
+}
+.start {
+  float: left;
+  height: 30px;
+  width: 30px;
+  background-color: sandybrown;
+
+  margin-left: 10px;
+}
+
+.statr_txt {
+  float: left;
+  margin-left: 5px;
 }
