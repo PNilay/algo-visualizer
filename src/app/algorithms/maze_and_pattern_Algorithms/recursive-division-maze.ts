@@ -11,7 +11,7 @@ export class RecursiveDivisionMaze {
 
     randomInteger(min:number, max:number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
+    }
 
 
     // RecursiveDivision function divides the portion of blank canvas to create maze
@@ -32,17 +32,19 @@ export class RecursiveDivisionMaze {
             var horizontal_index = this.randomInteger(start[0]+1, end[0]-1);
 
             for(var i =start[1]; i<=end[1]; i++){
-                // cells[horizontal_index][i].status = "close";
                 queue.push([horizontal_index, i]);
             }
-            var open_idx = this.randomInteger(start[1], end[1]);
-            // cells[horizontal_index][open_idx].status = "open";
-            queue.push([horizontal_index, open_idx]);
 
+            for(var i =0; i<=Math.round((end[1]-start[1])/10); i++){
+                var open_idx = this.randomInteger(start[1], end[1]);
+                queue.push([horizontal_index, open_idx]);
+            }
 
-            open_idx = this.randomInteger(start[1], end[1]);
-            // cells[horizontal_index][open_idx].status = "open";
-            queue.push([horizontal_index, open_idx]);
+            // var open_idx = this.randomInteger(start[1], end[1]);
+            // queue.push([horizontal_index, open_idx]);
+
+            // open_idx = this.randomInteger(start[1], end[1]);
+            // queue.push([horizontal_index, open_idx]);
 
             this.RecursiveDivision(cells,start, [horizontal_index-1,end[1]], orientation,queue);
             this.RecursiveDivision(cells, [horizontal_index+1, start[1]], end, orientation, queue);
@@ -52,16 +54,16 @@ export class RecursiveDivisionMaze {
             var verticle_index = this.randomInteger(start[1]+1, end[1]-1);
 
             for(var i =start[0]; i<=end[0]; i++){
-                // cells[i][verticle_index].status = "close";
                 queue.push([i, verticle_index]);
             }
 
-            var open_idx = this.randomInteger(start[0], end[0]);
-            // cells[open_idx][verticle_index].status = "open";
-            queue.push([open_idx, verticle_index]);
+            for(var i =0; i<=Math.round((end[0]-start[0])/10); i++){
+                var open_idx = this.randomInteger(start[0], end[0]);
+                queue.push([open_idx, verticle_index]);
+            }
 
-
-
+            // var open_idx = this.randomInteger(start[0], end[0]);
+            // queue.push([open_idx, verticle_index]);
 
             this.RecursiveDivision(cells,start, [end[0], verticle_index-1], orientation, queue);
             this.RecursiveDivision(cells, [start[0], verticle_index+1], end, orientation, queue);
@@ -74,18 +76,22 @@ export class RecursiveDivisionMaze {
                 var horizontal_index = this.randomInteger(start[0]+1, end[0]-1);
 
                 for(var i =start[1]; i<=end[1]; i++){
-                    // cells[horizontal_index][i].status = "close";
                     queue.push([horizontal_index, i]);
                 }
 
-                var open_idx = this.randomInteger(start[1], end[1]);
-                // cells[horizontal_index][open_idx].status = "open";
-                queue.push([horizontal_index, open_idx]);
+                for(var i =0; i<=Math.round((end[1]-start[1])/10); i++){
+                    var open_idx = this.randomInteger(start[1], end[1]);
+                    queue.push([horizontal_index, open_idx]);
+                }
+
+                // var open_idx = this.randomInteger(start[1], end[1]);
+                // // cells[horizontal_index][open_idx].status = "open";
+                // queue.push([horizontal_index, open_idx]);
 
 
-                open_idx = this.randomInteger(start[1], end[1]);
-                // cells[horizontal_index][open_idx].status = "open";
-                queue.push([horizontal_index, open_idx]);
+                // open_idx = this.randomInteger(start[1], end[1]);
+                // // cells[horizontal_index][open_idx].status = "open";
+                // queue.push([horizontal_index, open_idx]);
 
                 this.RecursiveDivision(cells,start, [horizontal_index-1,end[1]], orientation,queue);
                 this.RecursiveDivision(cells, [horizontal_index+1, start[1]], end, orientation, queue);
@@ -98,12 +104,14 @@ export class RecursiveDivisionMaze {
                     queue.push([i, verticle_index]);
                 }
 
-                var open_idx = this.randomInteger(start[0], end[0]);
-                // cells[open_idx][verticle_index].status = "open";
-                queue.push([open_idx, verticle_index]);
 
-
-
+                for(var i =0; i<=Math.round((end[0]-start[0])/10); i++){
+                    var open_idx = this.randomInteger(start[0], end[0]);
+                    queue.push([open_idx, verticle_index]);
+                }
+                // var open_idx = this.randomInteger(start[0], end[0]);
+                // // cells[open_idx][verticle_index].status = "open";
+                // queue.push([open_idx, verticle_index]);
 
                 this.RecursiveDivision(cells,start, [end[0], verticle_index-1], orientation, queue);
                 this.RecursiveDivision(cells, [start[0], verticle_index+1], end, orientation, queue);
