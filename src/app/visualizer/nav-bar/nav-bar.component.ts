@@ -25,11 +25,11 @@ export class NavBarComponent implements OnInit {
 
   maze_pattern:string = "blank";
 
-  custom_grid_size:number = 5;
+  custom_grid_size:number = 30;
  
   constructor(){
     this.toVis.algorithm = "Algorithms";
-    this.toVis.algorithmSpeed = 30;
+    this.toVis.algorithmSpeed = 50;
     this.advance_setting = false;
    }
 
@@ -45,7 +45,12 @@ export class NavBarComponent implements OnInit {
   RunVisualizer(){
     if(this.toVis.algorithm != "Algorithms"){
       this.reset.emit(true);
+      // var oldspeed = this.toVis.algorithmSpeed;
+      // this.toVis.algorithmSpeed = 400-oldspeed;
       let id = window.setTimeout(() => {  this.information.emit(this.toVis);}, 100);
+      
+    }else{
+      this.information.emit(this.toVis);
     }
   }
 
@@ -63,7 +68,13 @@ export class NavBarComponent implements OnInit {
     this.mazesAndPatterns.emit(this.maze_pattern);
   }
 
+  turn_walkthrough_tutorial(){
+    this.reset.emit(false);
+    this.mazesAndPatterns.emit('isWalkthrough');
+  }
+
   ResetGridSize(n:number){
+    this.custom_grid_size = n;
     this.grid_size.emit(n);
   }
 
