@@ -1,8 +1,52 @@
+@media (min-width: 320px) and (max-width: 450px) {
+  .grid {
+    width: 99vw;
+    height: 180vw;
+  }
+
+  table {
+    /* transition: all 3s; */
+    /* transform: rotate(90deg) translate(180px, 200px); */
+    table-layout: fixed;
+    transform-origin: bottom left;
+    /* margin: auto; */
+    /* background-color: pink; */
+    transform: rotate(90deg) translateX(-87vw);
+    margin-left: 5vw;
+  }
+}
+
+@media (min-width: 450px) {
+  table {
+    margin: auto;
+    margin-top: 5vh;
+  }
+}
+
+@media (max-width: 320px) {
+  table {
+    /* margin: auto; */
+    margin-top: 0vh;
+    margin-left: 3vw;
+  }
+}
+
 table,
 th,
 td {
   border: 1px solid black;
   cursor: default;
+}
+
+.grid {
+  width: 99vw;
+}
+table {
+  /* transition: all 3s; */
+  /* transform: rotate(90deg) translate(180px, 200px); */
+  table-layout: fixed;
+  transform-origin: bottom left;
+  /* margin: auto; */
 }
 
 td {

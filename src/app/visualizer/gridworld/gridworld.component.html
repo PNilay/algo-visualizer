@@ -1,4 +1,5 @@
 <div class="grid">
+    
     <table>
         <tr *ngFor="let row of cells; index as y">
             <td *ngFor="let col of row; index as x" 
@@ -13,10 +14,15 @@
             (drop) ="MouseUp($event, y,x)"
             (dragover)="DragCancel($event,y,x)"
 
-
-            [ngStyle]="{'width': 600/cells.length+'px', 'height':1200/cells[0].length+'px'}"
+            (touchstart) = "touchStart($event, y,x)"
+            (touchend) = "touchEnd($event, y,x)"
+            (touchcancel) = "touchCancel($event, y,x)"
+            (touchmove) = "touchMove($event, y,x)"
+            
             >
-                <app-gridcell #cell [cell] = "cells[y][x]"></app-gridcell>
+                <div class="responsive-cell" [ngStyle]="{'width': cell_width+'vw', 'height':cell_width+'vw'}">
+                    <app-gridcell id="{{y+','+x}}" #cell [cell] = "cells[y][x]"></app-gridcell>
+                </div>
             </td>
         </tr>
     </table>
