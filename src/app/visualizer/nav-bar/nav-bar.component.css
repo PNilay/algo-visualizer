@@ -29,15 +29,12 @@
   background-color: pink;
 }
 
-@media (min-width: 434px) {
+@media (max-width: 1000px) {
   .navbar-collapse {
     background-color: white;
     padding: 20px;
-  }
-}
-
-@media (min-width: 768px) {
-  .navbar-collapse {
-    background-color: unset;
+    z-index: 5;
+    margin: -20px;
+    margin-top: 0px;
   }
 }

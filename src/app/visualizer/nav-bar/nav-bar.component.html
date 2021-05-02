@@ -1,7 +1,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
     <a class="navbar-brand navhome" (click)="turn_walkthrough_tutorial()">Algo <br> Visualizer</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" id="hamburger_btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
@@ -112,11 +112,11 @@
 
       </ul>
 
-          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit" (click)="RunVisualizer()">Visualize {{this.toVis.algorithm}}</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit"  (click)="RunVisualizer()">Visualize {{this.toVis.algorithm}}</button>
           &nbsp; &nbsp;
-          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit" (click)="RunReset()">Reset Visualization</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit"  (click)="RunReset()">Reset Visualization</button>
           &nbsp; &nbsp;
-          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit" (click)="RunResetAll()">Reset All</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 btn_n" type="submit"  (click)="RunResetAll()">Reset All</button>
       </div>
 
 

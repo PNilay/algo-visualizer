@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NavInfo } from 'src/app/models/navInfo';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-nav-bar',
@@ -43,6 +44,9 @@ export class NavBarComponent implements OnInit {
   }
 
   RunVisualizer(){
+    if(window.innerWidth<992){
+      $('#hamburger_btn').click();
+    }
     if(this.toVis.algorithm != "Algorithms"){
       this.reset.emit(true);
       // var oldspeed = this.toVis.algorithmSpeed;
@@ -55,14 +59,23 @@ export class NavBarComponent implements OnInit {
   }
 
   RunReset(){
+    if(window.innerWidth<992){
+      $('#hamburger_btn').click();
+    }
     this.reset.emit(true);
   }
 
   RunResetAll(){
+    if(window.innerWidth<992){
+      $('#hamburger_btn').click();
+    }
     this.reset.emit(false);
   }
 
   mazesAndPattern(maze_type:string){
+    if(window.innerWidth<992){
+      $('#hamburger_btn').click();
+    }
     this.maze_pattern = maze_type;
     this.reset.emit(false);
     this.mazesAndPatterns.emit(this.maze_pattern);
