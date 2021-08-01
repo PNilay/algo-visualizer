@@ -25,6 +25,7 @@
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 50px;
+  /* padding-bottom: 2.5vh; */
 }
 
 .btn_navbar {
@@ -66,8 +67,8 @@
   height: 100vh;
   text-align: center;
   padding-top: 10px;
-  /* margin-bottom: 250px; */
-  padding-bottom: 20px;
+  margin-bottom: 250px;
+  /* padding-bottom: 20px; */
 }
 
 .info {
@@ -91,9 +92,9 @@
   text-align: center;
   height: 50px;
 
-  background-color: #f8f9fa !important;
+  /* background-color: #f8f9fa !important; */
 
-  /* background-color: #212529; */
+  background-color: #24252a !important;
   bottom: -20px;
 }
 
