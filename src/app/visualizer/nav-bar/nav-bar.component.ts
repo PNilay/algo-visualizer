@@ -5,7 +5,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  styleUrls: ['./nav-bar.component.css', './custom_styles.css', './checkbox_radio-input.css']
 })
 export class NavBarComponent implements OnInit {
 
@@ -27,6 +27,8 @@ export class NavBarComponent implements OnInit {
   maze_pattern:string = "blank";
 
   custom_grid_size:number = 30;
+
+  isHamburger_status:boolean = false;
  
   constructor(){
     this.toVis.algorithm = "Algorithms";
@@ -38,14 +40,19 @@ export class NavBarComponent implements OnInit {
     this.updateWeights();
   }
 
+  clicked(val:string){
+    console.log("ccclicked :: ", val);
+    
+  }
   handleChange(val:string){
     console.log("this ischeked", val);
     
   }
 
   RunVisualizer(){
-    if(window.innerWidth<992){
-      $('#hamburger_btn').click();
+    if(window.innerWidth<1140){
+      // $('#hamburger_btn').click();
+      this.isHamburger_status = false;
     }
     if(this.toVis.algorithm != "Algorithms"){
       this.reset.emit(true);
@@ -59,22 +66,25 @@ export class NavBarComponent implements OnInit {
   }
 
   RunReset(){
-    if(window.innerWidth<992){
-      $('#hamburger_btn').click();
+    if(window.innerWidth<1140){
+      // $('#hamburger_btn').click();
+      this.isHamburger_status = false;
     }
     this.reset.emit(true);
   }
 
   RunResetAll(){
-    if(window.innerWidth<992){
-      $('#hamburger_btn').click();
+    if(window.innerWidth<1140){
+      // $('#hamburger_btn').click();
+      this.isHamburger_status = false;
     }
     this.reset.emit(false);
   }
 
   mazesAndPattern(maze_type:string){
-    if(window.innerWidth<992){
-      $('#hamburger_btn').click();
+    if(window.innerWidth<1140){
+      // $('#hamburger_btn').click();
+      this.isHamburger_status = false;
     }
     this.maze_pattern = maze_type;
     this.reset.emit(false);
@@ -92,8 +102,50 @@ export class NavBarComponent implements OnInit {
   }
 
   updateWeights(){
-    this.weight_values.emit([this.diagonal_weight, this.toll_weight]);
-    // console.log("On focus out", this.diagonal_weight);
-    
+    if((this.diagonal_weight <= 100 && this.diagonal_weight >= 0) && (this.toll_weight <= 100 && this.toll_weight >= 0)){
+      this.weight_values.emit([this.diagonal_weight, this.toll_weight]); 
+    }else{
+      if(this.diagonal_weight > 100){
+        this.diagonal_weight = 100;
+      }else if( this.diagonal_weight <= 0){
+        this.diagonal_weight = 0;
+      }
+
+      if(this.toll_weight > 100){
+        this.toll_weight = 100;
+      }else if(this.toll_weight <= 0){
+        this.toll_weight = 0;
+      }
+      this.weight_values.emit([this.diagonal_weight, this.toll_weight]); 
+    }
   }
+
+  increment_num(t:number){
+    if(t == 0){
+        if(this.toll_weight < 100){
+          this.toll_weight = this.toll_weight+1;
+        }
+    }else if(t == 1){
+      if(this.diagonal_weight < 100){
+        this.diagonal_weight = this.diagonal_weight + 1;
+      }
+    }
+    this.weight_values.emit([this.diagonal_weight, this.toll_weight]); 
+    // this.updateWeights();
+}
+
+decrement_num(t:number){
+    if(t == 0){
+
+      if(this.toll_weight > 1){
+        this.toll_weight = this.toll_weight-1;
+      }
+    }else if(t == 1){
+      if(this.diagonal_weight > 1){
+        this.diagonal_weight = this.diagonal_weight - 1;
+      }
+    }
+    this.weight_values.emit([this.diagonal_weight, this.toll_weight]); 
+    // this.updateWeights();
+}
 }
