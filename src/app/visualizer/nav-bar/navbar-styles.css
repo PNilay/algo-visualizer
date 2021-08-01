@@ -1,3 +1,6 @@
+/* Import Google style : Montserrat (Medium 500) */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -52,7 +55,6 @@ header {
 }
 
 .nav__links li {
-  /* border: 2px solid salmon; */
   background-color: transparent;
   display: inline-block;
   padding: 25px 10px;
@@ -74,29 +76,43 @@ header {
   margin-top: 25px;
   width: 150px;
   background-color: gray;
-  border-radius: 0px 0px 10px 10px;
-  border-top: #99c285 4px solid;
 }
 
 .nav__links li:hover ul {
   display: block;
+  position: absolute;
+  margin-top: 25px;
+  width: 150px;
+  background-color: gray;
+  border-radius: 0px 0px 10px 10px;
+  /* border-top: #0088a9 4px solid; */
+
+  /* border-top: #0dd3da 4px solid; */
+
+  border-top: #99c285 4px solid;
+
   z-index: 2;
 }
 
 .nav__links li ul li {
   display: block;
   background-color: transparent;
+  /* margin: 10px 0px; */
   padding: 10px 10px;
 }
 
 .nav__links li ul li:hover {
   display: block;
   background-color: #ad70d7c2;
+  /* margin: 10px 0px; */
   padding: 10px 10px;
 }
 
 header button {
   padding: 9px 25px;
+  /* background-color: rgba(0,136,169,1); */
+  /* background-color: rgba(0, 100, 0, 1); */
+
   background-color: rgba(153, 194, 133, 1);
   color: #24252a;
   border: none;
@@ -105,6 +121,16 @@ header button {
   transition: all 0.3s ease 0s;
 }
 
+header button:hover {
+  /* background-color: rgba(0,136,169,0.8); */
+  /* background-color: rgba(0, 100, 0, 0.8); */
+  /* background-color: rgba(13, 211, 218, 0.8); */
+
+  /* background-color: rgba(0, 95, 105, 1); */
+
+  background-color: #ad70d7;
+  color: #fff;
+}
 .nav__buttons {
   background-color: transparent;
 }
@@ -113,12 +139,10 @@ header button {
   background-color: transparent;
 }
 
-header button:hover {
-  background-color: #ad70d7;
-  color: #fff;
-}
-
 .toggle__button {
+  /* position: absolute;
+    top: 0.75rem;
+    right: 1rem; */
   display: none;
   flex-direction: column;
   justify-content: space-between;
@@ -312,11 +336,10 @@ header button:hover {
   box-shadow: 0 0 0 10px rgba(173, 112, 215, 0.4);
 }
 
-/* MOBILE DEVICE NAVBAR */
 @media (max-width: 1140px) {
   header {
     flex-wrap: wrap;
-    /* height: 75px; */
+    height: 75px;
   }
 
   .logo {
@@ -327,53 +350,54 @@ header button:hover {
   .toggle__button {
     display: flex;
     cursor: pointer;
-    order: 1;
-  }
-
-  .nav__buttons {
-    order: 3;
-    display: none;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
   }
 
   .nav__links {
-    order: 2;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    transition: 2s;
+    z-index: -1;
+    transform: translateY(-350px);
+    transition: transform 0.5s;
+    background-color: #24252a;
   }
 
   .nav__links.active {
     display: flex;
+    transform: translateY(0px);
+    transition: 0.5s;
+    z-index: 2;
   }
 
-  .nav__links.active li {
+  .nav__links li {
     width: 100% !important;
     text-align: center;
+    /* border: 3px solid red; */
   }
 
-  .nav__links.active li ul {
-    opacity: 0;
-    transition: all 1s ease-in;
-    display: none;
-  }
-
-  .nav__links.active li:hover ul {
-    position: static;
-    display: block;
+  .nav__links li:hover ul {
+    position: relative;
     width: 100% !important;
-    opacity: 1;
-    /* background-color: red;
-    transition-delay: 3s; */
+  }
+
+  .nav__buttons {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    z-index: -1;
+    transform: translateY(-500px);
+    transition: 0.5s;
+    background-color: #24252a;
   }
 
   .nav__buttons.active {
     display: flex;
+    transform: translateY(0px);
+    transition: 0.5s;
+    /* z-index: 2; */
   }
 
   /* Hamburger Btn Animation */
@@ -389,5 +413,12 @@ header button:hover {
 
   .toggle__button.open span:nth-child(3) {
     transform: translateY(-9px) rotate(45deg);
+  }
+}
+
+@media (max-width: 479px) {
+  .sub_advanceopt {
+    padding: 10px 10px;
+    width: 100% !important;
   }
 }
