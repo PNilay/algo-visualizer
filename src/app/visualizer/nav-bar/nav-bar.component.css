@@ -30,6 +30,10 @@ header {
   padding: 0 2%;
   border-bottom: 2px solid green;
   background-color: #24252a;
+  padding-top: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 5px;
 }
 
 .logo {
@@ -73,7 +77,8 @@ header {
   position: absolute;
   margin-top: 25px;
   width: 150px;
-  background-color: gray;
+  /* background-color: gray; */
+  background-color: #343435;
   border-radius: 0px 0px 10px 10px;
   border-top: #99c285 4px solid;
 }
@@ -92,6 +97,13 @@ header {
 .nav__links li ul li:hover {
   display: block;
   background-color: #ad70d7c2;
+  padding: 10px 10px;
+}
+
+.nav__links li ul .opt-active {
+  display: block;
+  color: rgba(153, 194, 133, 1);
+  /* border: 2px solid rgba(153, 194, 133, 1); */
   padding: 10px 10px;
 }
 
@@ -168,7 +180,8 @@ header button:hover {
   height: 30px;
 
   border-radius: 40px;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  /* border: 2px solid rgba(0, 0, 0, 0.2); */
+  border: 2px solid #edf0f1;
   transition: 0.5s;
   margin-left: 15px;
 }
@@ -315,6 +328,8 @@ header button:hover {
 /* MOBILE DEVICE NAVBAR */
 @media (max-width: 1140px) {
   header {
+    padding-left: 10px;
+    padding-right: 10px;
     flex-wrap: wrap;
     /* height: 75px; */
   }
@@ -374,6 +389,7 @@ header button:hover {
 
   .nav__buttons.active {
     display: flex;
+    height: 50vh;
   }
 
   /* Hamburger Btn Animation */

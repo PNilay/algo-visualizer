@@ -100,6 +100,7 @@
 
 .start_node {
   height: 50px;
+  background: red;
 }
 .start {
   float: left;
@@ -113,4 +114,15 @@
 .statr_txt {
   float: left;
   margin-left: 5px;
+}
+
+.walkthrough-overlay {
+  height: 100vh;
+  opacity: 0.5;
+  transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 11;
+  background: rgba(153, 194, 133);
 }

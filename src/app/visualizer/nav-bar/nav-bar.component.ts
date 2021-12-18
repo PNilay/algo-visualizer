@@ -14,6 +14,7 @@ export class NavBarComponent implements OnInit {
   @Output() grid_size:  EventEmitter<number> = new EventEmitter();
   @Output() weight_values:  EventEmitter<number[]> = new EventEmitter(); //0 index ==> diagonal weight, 1 index ==> toll weight
   @Output() mazesAndPatterns:EventEmitter<string> = new EventEmitter();
+  @Output() is_touch_toll:EventEmitter<boolean> = new EventEmitter();
 
   toVis:NavInfo = new NavInfo();
   favoriteColor:number = 5;
@@ -24,11 +25,13 @@ export class NavBarComponent implements OnInit {
 
   advance_setting!:boolean;
 
-  maze_pattern:string = "blank";
+  maze_pattern:string = "Blank Grid";
 
   custom_grid_size:number = 30;
 
   isHamburger_status:boolean = false;
+
+  is_touch_screen:boolean = false;
  
   constructor(){
     this.toVis.algorithm = "Algorithms";
@@ -38,15 +41,6 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateWeights();
-  }
-
-  clicked(val:string){
-    console.log("ccclicked :: ", val);
-    
-  }
-  handleChange(val:string){
-    console.log("this ischeked", val);
-    
   }
 
   RunVisualizer(){
@@ -64,6 +58,14 @@ export class NavBarComponent implements OnInit {
       this.information.emit(this.toVis);
     }
   }
+
+  changeTouchSetting(){
+    this.is_touch_screen = !this.is_touch_screen;
+    this.is_touch_toll.emit(this.is_touch_screen);
+    console.log("change touch setting");
+    
+  }
+
 
   RunReset(){
     if(window.innerWidth<1140){

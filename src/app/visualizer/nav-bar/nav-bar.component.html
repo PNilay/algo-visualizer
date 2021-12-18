@@ -1,6 +1,6 @@
-      <header>
+      <header style="width:100vw; z-index: 10; position:absolute;">
 
-        <div class="logo" (click)="turn_walkthrough_tutorial()">
+        <div class="logo navhome" (click)="turn_walkthrough_tutorial()">
             AlgoVisualizer
         </div>
 
@@ -11,35 +11,35 @@
         </a>
 
         <ul class="nav__links" [class.active]="isHamburger_status">
-            <li (click)="clicked('Algorithms')"><a href="#" >Algorithms</a>
+            <li><a href="#" >Algorithms</a>
                 <ul style="width:250px;">
-                    <li (click)=" this.toVis.algorithm= 'BFS'">BFS (Breadth First Search)</li>
-                    <li (click)=" this.toVis.algorithm= 'DFS'">DFS (Depth First Search)</li>
-                    <li (click)=" this.toVis.algorithm= 'Dijkstra'">Dijkstra's</li>
-                    <li (click)=" this.toVis.algorithm= 'A* algorithm'">A* Algorithm</li>
+                    <li (click)=" this.toVis.algorithm= 'BFS'" [class.opt-active]="this.toVis.algorithm == 'BFS'">BFS (Breadth First Search)</li>
+                    <li (click)=" this.toVis.algorithm= 'DFS'" [class.opt-active]="this.toVis.algorithm == 'DFS'">DFS (Depth First Search)</li>
+                    <li (click)=" this.toVis.algorithm= 'Dijkstra'" [class.opt-active]="this.toVis.algorithm == 'Dijkstra'">Dijkstra's</li>
+                    <li (click)=" this.toVis.algorithm= 'A* algorithm'" [class.opt-active]="this.toVis.algorithm == 'A* algorithm'">A* Algorithm</li>
                 </ul>
             </li>
-            <li (click)="clicked('Grid Size')"><a href="#">Grid Size</a>
+            <li><a href="#">Grid Size</a>
                 <ul>
-                    <li (click)="ResetGridSize(10)">10 X 20</li>
-                    <li (click)="ResetGridSize(20)">20 X 40</li>
-                    <li (click)="ResetGridSize(30)">30 X 60</li>
-                    <li (click)="ResetGridSize(40)">40 X 80</li>
-                    <li (click)="ResetGridSize(50)">50 X 100</li>
+                    <li (click)="ResetGridSize(10)" [class.opt-active]="this.custom_grid_size == 10">10 X 20</li>
+                    <li (click)="ResetGridSize(20)" [class.opt-active]="this.custom_grid_size == 20">20 X 40</li>
+                    <li (click)="ResetGridSize(30)" [class.opt-active]="this.custom_grid_size == 30">30 X 60</li>
+                    <li (click)="ResetGridSize(40)" [class.opt-active]="this.custom_grid_size == 40">40 X 80</li>
+                    <li (click)="ResetGridSize(50)" [class.opt-active]="this.custom_grid_size == 50">50 X 100</li>
                 </ul>
             </li>
-            <li (click)="clicked('Pattern & Maze')"><a href="#">Pattern & Maze</a>
+            <li><a href="#">Pattern & Maze</a>
                 <ul style="width:250px;">
-                  <li (click)="mazesAndPattern('Blank Grid')">Blank Grid</li>
-                  <li (click)="mazesAndPattern('Random Pattern')">Random Pattern</li>
-                  <li (click)="mazesAndPattern('Recursive Division')">Recursive Division</li>
-                  <li (click)="mazesAndPattern('Recursive Division (Verticle skew)')">Recursive Division (Verticle Skew)</li>
-                  <li (click)="mazesAndPattern('Recursive Division (Horizontal skew)')">Recursive Division (Horizontal Skew)</li>
+                  <li (click)="mazesAndPattern('Blank Grid')" [class.opt-active]="this.maze_pattern == 'Blank Grid'">Blank Grid</li>
+                  <li (click)="mazesAndPattern('Random Pattern')" [class.opt-active]="this.maze_pattern == 'Random Pattern'">Random Pattern</li>
+                  <li (click)="mazesAndPattern('Recursive Division')" [class.opt-active]="this.maze_pattern == 'Recursive Division'">Recursive Division</li>
+                  <li (click)="mazesAndPattern('Recursive Division (Verticle skew)')" [class.opt-active]="this.maze_pattern == 'Recursive Division (Verticle skew)'">Recursive Division (Verticle Skew)</li>
+                  <li (click)="mazesAndPattern('Recursive Division (Horizontal skew)')" [class.opt-active]="this.maze_pattern == 'Recursive Division (Horizontal skew)'">Recursive Division (Horizontal Skew)</li>
                 </ul>
 
                 
             </li>
-            <li (click)="clicked('Advance Options')"><a href="#">Advance Options</a>
+            <li><a href="#">Advance Options</a>
                 <ul style="width: 500px;">
                     <li class="advanceOpt">
                         <span class="sub_advanceopt">
@@ -89,7 +89,7 @@
                     <li class="advanceOpt">
                         <span style="text-align: center;">
                             <label for="Heuristics_manhattan" class="custom-radio-btn">
-                                <input type="radio" id="Heuristics_manhattan" (click)=" this.toVis.heuristics= 'manhattan'" name="Heuristics" class="radio__input">
+                                <input type="radio" id="Heuristics_manhattan" (click)=" this.toVis.heuristics= 'manhattan'" name="Heuristics" class="radio__input" checked>
                                 <div class="radio__radio"></div>
                                 Manhattan
                             </label>
@@ -111,6 +111,19 @@
                         <input type="range" class="custom-slider" min="0" max="400" value="350" id="formControlRange" [(ngModel)]="toVis.algorithmSpeed">
                       </div>
                     </li>
+
+                    <li class="advanceOpt" style="background-color: #24252a;"> For Touch Screen Device</li>
+
+                    <li class="advanceOpt">
+                      <span style="text-align: center;">
+                        <label for="is_touch_toll" class="custom-checkbox">
+                          <input class="custom-checkbox__input" type="checkbox" id="is_touch_toll" (change)="changeTouchSetting()">
+                          <div class="custom-checkbox__box"></div>
+                          Touch to Create Toll Node
+                      </label>
+                    </span>
+                    </li>
+
                 </ul>
             </li>
         </ul>

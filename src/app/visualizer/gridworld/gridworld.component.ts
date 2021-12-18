@@ -19,6 +19,7 @@ export class GridworldComponent implements OnInit {
   @Input() inProcess:boolean = false;
   @Input() cells:Cell[][] = [];
   @Input() toll!:number;
+  @Input() is_touch_toll:boolean = false;
 
   @Output() iswallClicked: EventEmitter<boolean> = new EventEmitter();
   @Output() dragged: EventEmitter<any> = new EventEmitter();
@@ -40,6 +41,8 @@ export class GridworldComponent implements OnInit {
   screenWidth!:number;
   cell_width:number = 10;
 
+  mobile_device:boolean = false;
+
   constructor(private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void{ 
@@ -49,6 +52,7 @@ export class GridworldComponent implements OnInit {
       this.cell_width = 85/this.cells[0].length;
     }    
   };
+
 
 
   onResize(event:any) {
@@ -66,7 +70,9 @@ export class GridworldComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.grid_sizeChange();    
+    this.grid_sizeChange(); 
+    console.log("on change --------------------->", this.is_touch_toll);
+       
   }
 
   refreshGridworld(){
@@ -135,11 +141,14 @@ export class GridworldComponent implements OnInit {
   // Left button --> Create wall
   // right button --> Create toll
   mouseDownHandler(event:any, y:number,x:number){
+
+    // console.log("this clidfghjkjhghgfg", this.is_touch_toll);
+    
     if(!this.inProcess){
       if(this.cells[y][x].status != 'start' && this.cells[y][x].status != 'end' ){
         this.prev_mouseEnter = y+x;
 
-        if(event.button == 0){
+        if((event.button == 0 && !this.is_touch_toll)||(event.button == 2 && this.is_touch_toll)){
           // console.log('Left Clicked');
           this.leftOrRight = false;
           if(this.cells[y][x].status == 'close'){
@@ -316,14 +325,27 @@ export class GridworldComponent implements OnInit {
     if(!this.inProcess){
       if(this.cells[y][x].status != 'start' && this.cells[y][x].status != 'end' ){
         this.prev_mouseEnter = y+x;
+      
 
-        this.leftOrRight = false;
-        if(this.cells[y][x].status == 'close'){
-          this.cells[y][x].status = 'open';
-        }
-        else if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){
-          this.cells[y][x].weight = 1;
-          this.cells[y][x].status = 'close';
+        if(this.is_touch_toll){
+          this.leftOrRight = true;
+          if(this.cells[y][x].status == 'toll'){
+            this.cells[y][x].status = 'open';
+          }
+          else if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'close'){
+            this.cells[y][x].weight = this.toll;
+            this.cells[y][x].status = 'toll';
+          }
+
+        }else{
+          this.leftOrRight = false;
+          if(this.cells[y][x].status == 'close'){
+            this.cells[y][x].status = 'open';
+          }
+          else if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){
+            this.cells[y][x].weight = 1;
+            this.cells[y][x].status = 'close';
+          }
         }
           
         this.mousePressed = true;        
@@ -406,18 +428,37 @@ export class GridworldComponent implements OnInit {
           
           
           if(this.prev_mouseEnter != y+x){ 
-            if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){ 
-              this.cells[y][x].status = 'close';
-              this.cells[y][x].weight = 1;
-              this.prev_mouseEnter = y+x;
-              this.refreshGridworld();
-              return;
-            }else if(this.cells[y][x].status == 'close'){    
-              this.cells[y][x].status = 'open';
-              this.prev_mouseEnter = y+x;
-              this.refreshGridworld();
-              return;
+
+            if(this.is_touch_toll){
+              if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'close'){ 
+                this.cells[y][x].status = 'toll';
+                this.cells[y][x].weight = this.toll;
+                this.prev_mouseEnter = y+x;
+                this.refreshGridworld();
+                return;
+              }else if(this.cells[y][x].status == 'toll'){    
+                this.cells[y][x].status = 'open';
+                this.prev_mouseEnter = y+x;
+                this.refreshGridworld();
+                return;
+              }
+
+            }else{
+              if(this.cells[y][x].status == 'open' || this.cells[y][x].status == 'toll'){ 
+                this.cells[y][x].status = 'close';
+                this.cells[y][x].weight = 1;
+                this.prev_mouseEnter = y+x;
+                this.refreshGridworld();
+                return;
+              }else if(this.cells[y][x].status == 'close'){    
+                this.cells[y][x].status = 'open';
+                this.prev_mouseEnter = y+x;
+                this.refreshGridworld();
+                return;
+              }
             }
+
+
           }
         }
       }

@@ -9,6 +9,7 @@ import { NavInfo } from 'src/app/models/navInfo';
 import { Cell } from '../../models/cell';
 import { GridcellComponent } from '../gridcell/gridcell.component';
 import { GridworldComponent } from '../gridworld/gridworld.component';
+import { WalkthrouhTutorialComponent } from '../walkthrouh-tutorial/walkthrouh-tutorial.component';
 
 @Component({
   selector: 'app-algovisualizer',
@@ -18,6 +19,8 @@ import { GridworldComponent } from '../gridworld/gridworld.component';
 export class AlgovisualizerComponent implements OnInit {
 
   @ViewChild('grid') child!: GridworldComponent;
+
+  isWalkthrough:boolean = false;
 
   sizeOfGrid:number[] = [30,60];
   bfs!: BFS;
@@ -33,6 +36,8 @@ export class AlgovisualizerComponent implements OnInit {
   navigation!:NavInfo;
   diagonal_weight!:number;
   toll_weight!:number;
+
+  is_touch_toll:boolean=false;
 
   startNode:number[] = [15,10];
   endNode:number[] = [15,50];
@@ -65,12 +70,14 @@ export class AlgovisualizerComponent implements OnInit {
     this.dijksta = new Dijksta();
     this.astar = new Astar();
 
-    this.shapherds_tour();
+   // this.shapherds_tour();
 
-    if(window.innerWidth>700 && window.innerHeight>500){
-      this.shepherdService.start();
-    }
-    // this.shepherdService.start();
+    // if(window.innerWidth>700 && window.innerHeight>500){
+    //   this.shepherdService.start();
+    // }
+    //// this.shepherdService.start();
+
+    this.isWalkthrough = true;
 
 
 
@@ -97,6 +104,15 @@ export class AlgovisualizerComponent implements OnInit {
   // availPath(){
   //   this.notificationService.remove();
   // }
+
+  // resetWalkthrough(event:any){
+  //   this.isWalkthrough = event;
+  // }
+
+  resetWalkthrough(event:any){
+    console.log("walkthrough reset", event);
+    this.isWalkthrough = event;
+  }
 
   ChangeGridSize(event:number){
     console.log("Change Grid Size");
@@ -149,6 +165,12 @@ export class AlgovisualizerComponent implements OnInit {
     }
   }
 
+  changeTouchSetting(event:boolean){
+    console.log("algovisualizer touch screen", event);
+    
+    this.is_touch_toll = event;
+  }
+
   resetEverything(event:boolean){
     this.isVisualizing = false;
     this.inProcess = false;
@@ -177,7 +199,8 @@ export class AlgovisualizerComponent implements OnInit {
 
   change_mazes_pattern(event:string){
     if(event == 'isWalkthrough'){
-      this.shepherdService.start();
+      // this.shepherdService.start();
+      this.isWalkthrough = true;
     }else if(event == 'Random Pattern'){
       this.child.generateRandomPatterns();
     }else if(event == 'Recursive Division'){

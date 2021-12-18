@@ -1,0 +1,24 @@
+<div class="main-tutorial-window" *ngIf ="isShow">
+    <div class="tutorial-subwindow">
+        <div class="walkthrough-title">
+            <div class="title-name" [innerHTML]="walkthrough_steps[walkthrough_page]['title']">
+            </div>
+
+            <div class="touch_device_btn" *ngIf="walkthrough_steps[walkthrough_page]['touch_btn']">
+                <button (click)="onTouch()" [innerHTML]="touch_btn_val"></button>
+            </div>
+            <div class="cancel-button" (click)="onSkip()">
+            </div>
+        </div>
+        <div class="walkthrough-body" [innerHTML]="walkthrough_steps[walkthrough_page]['body']">
+        </div>
+
+        <div class="walkthrough-footer">
+            <button (click)="onPrev()" *ngIf="walkthrough_steps[walkthrough_page]['prev_btn']">Previous</button>
+            <button (click)="onSkip()" *ngIf="walkthrough_steps[walkthrough_page]['skip_btn']">Skip</button>
+            <button (click)="onNext()" *ngIf="walkthrough_steps[walkthrough_page]['next_btn']">Next</button>
+            <button (click)="onSkip()" *ngIf="!walkthrough_steps[walkthrough_page]['skip_btn']">End</button>
+
+        </div>
+    </div>
+</div>
