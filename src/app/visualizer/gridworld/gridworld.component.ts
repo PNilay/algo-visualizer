@@ -292,17 +292,6 @@ export class GridworldComponent implements OnInit {
 
   generateRandomPatterns(){
     Randompatterns.generateRandomPattern(this.cells);
-    
-    // var queue: number[][] = [];
-    // var rd = new RecursiveDivisionMaze();
-    // rd.RecursiveDivision(this.cells, [0,0], [this.cells.length-1,this.cells[0].length-1], 0, queue);
-    // for(var i =0;i<queue.length; i++){
-    //   var value = queue[i];
-    //   if(value){
-    //     this.delay(value);
-    //   }
-    // }
-    
   }
 
   generateRecursiveDivisionMaze(orientation:number){
@@ -319,9 +308,6 @@ export class GridworldComponent implements OnInit {
 
 
   touchStart(event:any, y:number,x:number){
-    // console.log("touch start::  ", y,x);
-    // console.log("touch start", event);
-    
     if(!this.inProcess){
       if(this.cells[y][x].status != 'start' && this.cells[y][x].status != 'end' ){
         this.prev_mouseEnter = y+x;
