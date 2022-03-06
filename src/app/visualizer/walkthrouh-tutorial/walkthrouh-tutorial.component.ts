@@ -72,7 +72,7 @@ export class WalkthrouhTutorialComponent implements OnInit {
 
   wall_block_click: string = `
   <div class="text-medium-light subtitle-padding wallnode_txt1">
-  Left click on cell to create wall node in gridworld.
+  Left click on cell to create wall node
   <div class="wallnode_txt2 text-small-light">
   Wall nodes are impossible to pass through, therefore path between start and gole node will never include them.
   </div>
@@ -115,7 +115,7 @@ export class WalkthrouhTutorialComponent implements OnInit {
         A fun way to visualize algorithms
     </div>
     <div class="text-medium-light subtitle-padding">
-        Welcome, Let Have a walkthrough of this tool
+        Welcome, Let's Have a walkthrough of this tool
     </div>
     <img src="assets/Visualization_Intro.gif" width="80%" height="50%">`,
       next_btn: true,
@@ -128,7 +128,7 @@ export class WalkthrouhTutorialComponent implements OnInit {
       body: `
     <img src="assets/algoVisualizer_btns.PNG" width="80%" height="50%">
     <div class="text-medium-light subtitle-padding">
-    Use three navigation bar buttons to visualize algorithm, clear visualization and reset/remove grid blocks.
+    Use navigation bar buttons to visualize algorithm, clear visualization and reset/remove grid blocks.
     </div>
     `,
       next_btn: true,
