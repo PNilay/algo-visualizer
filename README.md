@@ -16,5 +16,12 @@ Below are a few popular pathfinding algorithms.
 
 Breadth First Search (BFS) is one of the most fundamental graph/tree traversal algorithm. BFS starts traversing from a selected source node and explores the graph layerwise thus exploring neighbor nodes (nodes which are directly connected to current node), then it examines all the neighbors of neighbor, and so on, until it reaches the goal node. It is a remarkable algorithm which guarantees the shortest path between two nodes for unweighted (all the connections have the same weight) graph. 
 
-Time Complexity: O(V+E) where V is number of nodes and E is the edges in the graph
-Space Complexity:  O(V) 
+ - Time Complexity: O(V+E) where V is number of nodes and E is the edges in the graph
+ - Space Complexity:  O(V) 
+
+### Depth First Search (DFS)
+
+Depth First Search (DFS) is the other fundamental graph traversal algorithm, which starts at the source node and explores as far as possible along each branch before going back, therefore this algorithm is also known as Backtracking. Due to this backtracking feature, the DFS algorithm can be implemented in both iterative and recursive ways. The DFS algorithm is widely used to find connected components, topological sorting, maze generation, to detect cycles in a graph and many more. However, the DFS algorithm does not guarantee the shortest path between two nodes.
+
+ - Time Complexity: O(V+E) where, V is number of nodes and E is the edges in the graph
+ - Space Complexity:  O(V) 
